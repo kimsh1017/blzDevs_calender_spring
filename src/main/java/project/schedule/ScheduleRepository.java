@@ -7,7 +7,7 @@ public interface ScheduleRepository{
     
     public void save(Schedule schedule);
     
-    // public Workspace findOne(Long id);
+    public Schedule findOne(Long id);
     
     public List<Schedule> findAll();
     

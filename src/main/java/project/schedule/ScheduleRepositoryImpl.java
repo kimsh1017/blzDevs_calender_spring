@@ -19,6 +19,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     }
     
     @Override
+    public Schedule findOne(Long id){
+        return em.find(Schedule.class, id);
+    }
+    
+    @Override
     public List<Schedule> findAll(){
         return em.createQuery(
             "select s from Schedule s" +

@@ -24,4 +24,12 @@ public class DevLog{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    
+    protected DevLog(){}
+    
+    public DevLog(Schedule schedule, User user, String content){
+        this.schedule = schedule;
+        this.user = user;
+        this.content = content;
+    }
 }

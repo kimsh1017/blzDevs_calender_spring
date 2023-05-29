@@ -21,7 +21,7 @@ public class ScheduleController {
         List<Schedule> findSchedules = scheduleService.findAll();
             
         List<ScheduleDto> collect = findSchedules.stream()
-            .map(schedule -> new ScheduleDto(schedule.getWorkspace(), schedule.getName(), schedule.getUserSchedules()))
+            .map(schedule -> new ScheduleDto(schedule.getId(),schedule.getWorkspace(), schedule.getName(), schedule.getUserSchedules()))
             .collect(Collectors.toList());
         
         return new Response(0,"",collect);
@@ -52,11 +52,13 @@ public class ScheduleController {
     @Getter
     @AllArgsConstructor
     static class ScheduleDto{
+        private Long schedule_id;
         private String workspace;
         private String name;
         private List<String> users;
         
-        public ScheduleDto(Workspace workspace, String name, List<UserSchedule> userSchedules){
+        public ScheduleDto(Long id, Workspace workspace, String name, List<UserSchedule> userSchedules){
+            this.schedule_id = id;
             this.workspace = workspace.getName();
             this.name = name;
             this.users = userSchedules.stream()
