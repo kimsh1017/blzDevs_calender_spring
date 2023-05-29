@@ -29,7 +29,7 @@ public class UserController{
     @PostMapping("/users")
     public Response registerUser(@RequestBody User user){
         Long userId = userService.register(user);
-        return new Response(0,"",userService.findOne(userId));
+        return new Response(0,"",userId);
     }
     
     @GetMapping("/users/{accountId}")

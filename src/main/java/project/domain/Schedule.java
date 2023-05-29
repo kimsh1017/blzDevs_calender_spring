@@ -2,13 +2,14 @@ package project.domain;
 
 import javax.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "schedules")
-@Getter
+@Getter @Setter
 public class Schedule{
     
     @Id @GeneratedValue
@@ -24,4 +25,24 @@ public class Schedule{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workspace_id")
     private Workspace workspace;
+    
+    @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL)
+    private List<UserSchedule> userSchedules;
+    
+    
+    // <== 생성 메소드 ==>
+    public static Schedule createSchedule(Workspace workspace, String name, LocalDateTime startDate, LocalDateTime endDate, List<UserSchedule> userSchedules){
+        Schedule schedule = new Schedule();
+        schedule.setWorkspace(workspace);
+        schedule.setName(name);
+        schedule.setStartDate(startDate);
+        schedule.setEndDate(endDate);
+        schedule.setUserSchedules(userSchedules);
+        
+        for (UserSchedule userSchedule : userSchedules){
+            userSchedule.setSchedule(schedule);
+        }
+        
+        return schedule;
+    }
 }

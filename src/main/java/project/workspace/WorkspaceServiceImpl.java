@@ -17,33 +17,22 @@ public class WorkspaceServiceImpl implements WorkspaceService{
     private final WorkspaceRepository workspaceRepository;
     private final UserRepository userRepository;
         
+    // 성능 개선 필요
     @Transactional
-    public Long makeWorkspace(String name, List<String> admins, List<String> users){
+    public Long makeWorkspace(String name, List<String> userAccountIds){
         //중복 이름 검증
         validateWorkspace(name);
         
-        //회원 찾아서 연결하기 -> 쿼리 개복잡해짐 -> queryDSL 써야할듯..?
-        List <User> adminUsers = admins.stream().
-            map(userId -> userRepository.findByAccountId(userId).get(0))
-            .collect(Collectors.toList());
-        
-        List <User> nomalUsers = users.stream().
-            map(userId -> userRepository.findByAccountId(userId).get(0))
-            .collect(Collectors.toList());
+        List <User> findUsers = userRepository.findUsersByAccounIdList(userAccountIds);
         
         // 중간 테이블 만들기
-        List <UserWorkspace> userWorkspaces = new ArrayList<> ();
-        
-        for (User user : adminUsers){
-            UserWorkspace userWorkspace = new UserWorkspace();
-            userWorkspace.setUser(user);
-            userWorkspaces.add(userWorkspace);
-        }
-        for (User user : nomalUsers){
-            UserWorkspace userWorkspace = new UserWorkspace();
-            userWorkspace.setUser(user);
-            userWorkspaces.add(userWorkspace);
-        }
+        List<UserWorkspace> userWorkspaces = findUsers.stream()
+            .map(user -> {
+                UserWorkspace userWorkspace = new UserWorkspace();
+                userWorkspace.setUser(user);
+                return userWorkspace;
+            })
+            .collect(Collectors.toList());
         
         //Workspace 생성
         Workspace workspace = Workspace.createWorkspace(name, userWorkspaces);
@@ -55,7 +44,6 @@ public class WorkspaceServiceImpl implements WorkspaceService{
     public List<Workspace> findAll(){
         return workspaceRepository.findAll();
     }
-    
     
     //bool 형으로 바꿔서 검증 함수 만들면 재사용성 더 좋을듯
     private void validateWorkspace(String name){

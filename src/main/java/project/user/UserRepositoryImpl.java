@@ -38,4 +38,23 @@ public class UserRepositoryImpl implements UserRepository{
             .setParameter("accountId", accountId)
             .getResultList();
     }
+    
+    @Override
+    public List<User> findUsersByAccounIdList(List<String> userAccountIds){
+        String QueryString = "select u from User u" + " where";
+        
+        for (int i = 0; i < userAccountIds.size() - 1; i++){
+            QueryString += " u.accountId='";
+            QueryString += userAccountIds.get(i);
+            QueryString += "' or";
+        }
+        QueryString += " u.accountId='";
+        QueryString += userAccountIds.get(userAccountIds.size() - 1);
+        QueryString += "'";
+        System.out.println(QueryString);
+        
+        return em.createQuery(
+            QueryString, User.class)
+            .getResultList();
+    }
 }

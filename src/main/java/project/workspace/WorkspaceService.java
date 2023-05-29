@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface WorkspaceService{
 
-    public Long makeWorkspace(String name, List<String> admins, List<String> users);
+    public Long makeWorkspace(String name, List<String> users);
     
     public List<Workspace> findAll();
 }

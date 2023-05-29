@@ -29,7 +29,7 @@ public class WorkspaceController{
     
     @PostMapping("/workspaces")
     public Response registerUser(@RequestBody CreateWorkspaceRequest request){
-        Long workspaceId = workspaceService.makeWorkspace(request.getName(), request.getAdmins(), request.getUsers());
+        Long workspaceId = workspaceService.makeWorkspace(request.getName(), request.getUsers());
         return new Response(0,"",workspaceId);
     }
     
@@ -41,7 +41,7 @@ public class WorkspaceController{
         public WorkspaceDto(String name, List<UserWorkspace> userWorkspaces){
             this.name = name;
             for (UserWorkspace userWorkspace : userWorkspaces){
-                users.add(userWorkspace.getUser().getName());
+                users.add(userWorkspace.getUser().getAccountId());
             }
         }
     }
@@ -60,7 +60,7 @@ public class WorkspaceController{
     static class CreateWorkspaceRequest{
         private String name;
         
-        private List<String> admins = new ArrayList<> ();
+        // private List<String> admins = new ArrayList<> ();
         private List<String> users = new ArrayList<> ();
     }
 }
