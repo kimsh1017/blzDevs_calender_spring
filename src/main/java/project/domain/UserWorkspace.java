@@ -2,13 +2,14 @@ package project.domain;
 
 import javax.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_workspace")
-@Getter
+@Getter @Setter
 public class UserWorkspace{
     
     @Id @GeneratedValue

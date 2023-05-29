@@ -13,11 +13,14 @@ public class User{
     
     @Id @GeneratedValue
     @Column(name = "user_id")
-    private Long user_id;
+    private Long id;
     
-    private String id;
+    private String accountId;
     
     private String password;
     
     private String name;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserWorkspace> userWorkspaces = new ArrayList<> ();
 }
