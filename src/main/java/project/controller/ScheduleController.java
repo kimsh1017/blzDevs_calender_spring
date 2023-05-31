@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 
@@ -17,11 +18,12 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     
     @GetMapping("/schedules")
-    public Response findAllSchedule(){
-        List<Schedule> findSchedules = scheduleService.findAll();
+    public Response findAllSchedule(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                  @RequestParam(value = "limit", defaultValue = "100") int limit){
+        List<Schedule> findSchedules = scheduleService.findAll(offset, limit);
             
         List<ScheduleDto> collect = findSchedules.stream()
-            .map(schedule -> new ScheduleDto(schedule.getId(),schedule.getWorkspace(), schedule.getName(), schedule.getUserSchedules()))
+            .map(schedule -> new ScheduleDto(schedule.getId(), schedule.getWorkspace(), schedule.getName(), schedule.getUserSchedules()))
             .collect(Collectors.toList());
         
         return new Response(0,"",collect);
@@ -55,15 +57,19 @@ public class ScheduleController {
         private Long schedule_id;
         private String workspace;
         private String name;
-        private List<String> users;
+        private List<String> users = new ArrayList <> ();
         
         public ScheduleDto(Long id, Workspace workspace, String name, List<UserSchedule> userSchedules){
             this.schedule_id = id;
             this.workspace = workspace.getName();
             this.name = name;
-            this.users = userSchedules.stream()
-                .map(userSchedule -> userSchedule.getUser().getName())
-                .collect(Collectors.toList());
+            // this.users = userSchedules.stream()
+            //     .map(userSchedule -> userSchedule.getUser().getName())
+            //     .collect(Collectors.toList());
+            
+            for (UserSchedule userSchedule : userSchedules){
+                users.add(userSchedule.getUser().getAccountId());
+            }
         }
     }
 }

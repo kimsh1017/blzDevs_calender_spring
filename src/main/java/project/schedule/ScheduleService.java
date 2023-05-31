@@ -10,5 +10,5 @@ public interface ScheduleService{
 
     public Long createSchedule(String Workspace, String name, LocalDateTime startDate, LocalDateTime endDate, List<String> users);
     
-    public List<Schedule> findAll();
+    public List<Schedule> findAll(int offset, int limit);
 }

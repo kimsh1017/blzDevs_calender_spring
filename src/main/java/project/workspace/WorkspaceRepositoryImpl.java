@@ -23,9 +23,11 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository{
         return em.find(Workspace.class, id);
     }
     
-    public List<Workspace> findAll(){
+    public List<Workspace> findAll(int offset, int limit){
         return em.createQuery(
             "select w from Workspace w", Workspace.class)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
             .getResultList();
     }
     

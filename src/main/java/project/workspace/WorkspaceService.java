@@ -9,5 +9,5 @@ public interface WorkspaceService{
 
     public Long makeWorkspace(String name, List<String> users);
     
-    public List<Workspace> findAll();
+    public List<Workspace> findAll(int offset, int limit);
 }

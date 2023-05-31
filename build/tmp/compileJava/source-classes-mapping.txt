@@ -10,12 +10,12 @@ project/domain/Workspace.java
  project.domain.Workspace
 project/devLog/DevLogService.java
  project.devLog.DevLogService
-project/domain/UserWorkspace.java
- project.domain.UserWorkspace
+project/domain/DevLog.java
+ project.domain.DevLog
 project/user/UserRepositoryImpl.java
  project.user.UserRepositoryImpl
-project/domain/Schedule.java
- project.domain.Schedule
+project/devLog/DevLogRepositoryImpl.java
+ project.devLog.DevLogRepositoryImpl
 project/workspace/WorkspaceRepositoryImpl.java
  project.workspace.WorkspaceRepositoryImpl
 project/controller/WorkspaceController.java
@@ -26,8 +26,8 @@ project/domain/User.java
  project.domain.User
 project/workspace/WorkspaceRepository.java
  project.workspace.WorkspaceRepository
-project/user/UserServiceImpl.java
- project.user.UserServiceImpl
+project/devLog/DevLogRepository.java
+ project.devLog.DevLogRepository
 project/controller/UserController.java
  project.controller.UserController
  project.controller.UserController$UserDetailDto
@@ -48,17 +48,17 @@ project/user/UserService.java
  project.user.UserService
 project/controller/Response.java
  project.controller.Response
+project/devLog/DevLogServiceImpl.java
+ project.devLog.DevLogServiceImpl
+project/domain/Schedule.java
+ project.domain.Schedule
 project/domain/UserSchedule.java
  project.domain.UserSchedule
-project/devLog/DevLogRepository.java
- project.devLog.DevLogRepository
-project/domain/DevLog.java
- project.domain.DevLog
+project/domain/UserWorkspace.java
+ project.domain.UserWorkspace
 project/controller/DevLogController.java
  project.controller.DevLogController
  project.controller.DevLogController$CreateDevLogRequest
  project.controller.DevLogController$DevLogDto
-project/devLog/DevLogServiceImpl.java
- project.devLog.DevLogServiceImpl
-project/devLog/DevLogRepositoryImpl.java
- project.devLog.DevLogRepositoryImpl
+project/user/UserServiceImpl.java
+ project.user.UserServiceImpl

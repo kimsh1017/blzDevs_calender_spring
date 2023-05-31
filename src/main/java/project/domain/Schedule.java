@@ -27,8 +27,12 @@ public class Schedule{
     private Workspace workspace;
     
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL)
-    private List<UserSchedule> userSchedules;
+    private List<UserSchedule> userSchedules = new ArrayList <> ();
     
+    public void addUserSchedule(UserSchedule userSchedule){
+        this.userSchedules.add(userSchedule);
+        userSchedule.setSchedule(this);
+    }
     
     // <== 생성 메소드 ==>
     public static Schedule createSchedule(Workspace workspace, String name, LocalDateTime startDate, LocalDateTime endDate, List<UserSchedule> userSchedules){
@@ -37,11 +41,15 @@ public class Schedule{
         schedule.setName(name);
         schedule.setStartDate(startDate);
         schedule.setEndDate(endDate);
-        schedule.setUserSchedules(userSchedules);
+        // schedule.setUserSchedules(userSchedules);
         
+        // for (UserSchedule userSchedule : userSchedules){
+        //     userSchedule.setSchedule(schedule);
+        // }
         for (UserSchedule userSchedule : userSchedules){
-            userSchedule.setSchedule(schedule);
+            schedule.addUserSchedule(userSchedule);
         }
+        
         
         return schedule;
     }

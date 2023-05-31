@@ -9,7 +9,7 @@ public interface ScheduleRepository{
     
     public Schedule findOne(Long id);
     
-    public List<Schedule> findAll();
+    public List<Schedule> findAll(int offset, int limit);
     
     // public List<Workspace> findByName(String name);
 }

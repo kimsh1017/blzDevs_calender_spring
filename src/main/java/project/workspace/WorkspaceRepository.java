@@ -9,7 +9,7 @@ public interface WorkspaceRepository{
     
     public Workspace findOne(Long id);
     
-    public List<Workspace> findAll();
+    public List<Workspace> findAll(int offset, int limit);
     
     public List<Workspace> findByName(String name);
 }

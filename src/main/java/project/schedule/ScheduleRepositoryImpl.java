@@ -24,10 +24,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     }
     
     @Override
-    public List<Schedule> findAll(){
+    public List<Schedule> findAll(int offset, int limit){
         return em.createQuery(
             "select s from Schedule s" +
             " join fetch s.workspace w", Schedule.class)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
             .getResultList();
     }
 }

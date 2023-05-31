@@ -21,9 +21,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     private final WorkspaceRepository workspaceRepository;
     
     @Override
-    @Transactional
-    public List<Schedule> findAll(){
-        return scheduleRepository.findAll();
+    public List<Schedule> findAll(int offset, int limit){
+        return scheduleRepository.findAll(offset, limit);
     }
     
     @Override

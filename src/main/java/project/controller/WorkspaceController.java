@@ -17,8 +17,9 @@ public class WorkspaceController{
     private final WorkspaceService workspaceService;
     
     @GetMapping("/workspaces")
-    public Response findAllUserName(){
-        List<Workspace> findWorkspaces = workspaceService.findAll();
+    public Response findAllWorkspaces(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                  @RequestParam(value = "limit", defaultValue = "100") int limit){
+        List<Workspace> findWorkspaces = workspaceService.findAll(offset, limit);
             
         List<WorkspaceDto> collect = findWorkspaces.stream()
             .map(workspace -> new WorkspaceDto(workspace.getName(), workspace.getUserWorkspaces()))
@@ -28,7 +29,7 @@ public class WorkspaceController{
     }
     
     @PostMapping("/workspaces")
-    public Response registerUser(@RequestBody CreateWorkspaceRequest request){
+    public Response createWorkspace(@RequestBody CreateWorkspaceRequest request){
         Long workspaceId = workspaceService.makeWorkspace(request.getName(), request.getUsers());
         return new Response(0,"",workspaceId);
     }

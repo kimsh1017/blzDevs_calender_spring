@@ -41,8 +41,8 @@ public class WorkspaceServiceImpl implements WorkspaceService{
     }
     
     
-    public List<Workspace> findAll(){
-        return workspaceRepository.findAll();
+    public List<Workspace> findAll(int offset, int limit){
+        return workspaceRepository.findAll(offset, limit);
     }
     
     //bool 형으로 바꿔서 검증 함수 만들면 재사용성 더 좋을듯
