@@ -26,6 +26,16 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
     
     @Override
+    public List<Schedule> findSchedules(int offset, int limit, String workspaceName){
+        if (workspaceName == null){
+            return scheduleRepository.findAll(offset, limit);
+        }
+        else{
+            return scheduleRepository.findByWorkspaceName(offset, limit, workspaceName);
+        }
+    }
+    
+    @Override
     @Transactional
     public Long createSchedule(String workspace, String name, LocalDateTime startDate, LocalDateTime endDate, List<String> userAccountIds){
         //구현 시작

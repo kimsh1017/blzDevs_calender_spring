@@ -48,8 +48,8 @@ project/user/UserService.java
  project.user.UserService
 project/controller/Response.java
  project.controller.Response
-project/devLog/DevLogServiceImpl.java
- project.devLog.DevLogServiceImpl
+project/user/UserServiceImpl.java
+ project.user.UserServiceImpl
 project/domain/Schedule.java
  project.domain.Schedule
 project/domain/UserSchedule.java
@@ -60,5 +60,5 @@ project/controller/DevLogController.java
  project.controller.DevLogController
  project.controller.DevLogController$CreateDevLogRequest
  project.controller.DevLogController$DevLogDto
-project/user/UserServiceImpl.java
- project.user.UserServiceImpl
+project/devLog/DevLogServiceImpl.java
+ project.devLog.DevLogServiceImpl

@@ -16,8 +16,14 @@ public class DevLogController {
     private final DevLogService devLogService;
     
     @GetMapping("/devLogs")
-    public Response findAllDevlogs(){
+    public Response findAllDevlogs(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                  @RequestParam(value = "limit", defaultValue = "100") int limit,
+                                @RequestParam(value="schedule_Id", required = false) Long scheduleId,
+                                @RequestParam(value="accountId", required = false) String accountId){
+        
         List<DevLog> findDevLogs = devLogService.findAll();
+        
+        // List<DevLog> findDevLogs = devLogService.findDevLogs(offset, limit, scheduleId, accountId);
         
         List<DevLogDto> collect = findDevLogs.stream()
             .map(devLog -> new DevLogDto(devLog.getId(), devLog.getSchedule().getId(), devLog.getUser().getName(),devLog.getContent()))

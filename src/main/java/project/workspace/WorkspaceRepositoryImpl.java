@@ -39,4 +39,15 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository{
             .setParameter("name", name)
             .getResultList();
     }
+    
+    //in 쿼리 쓰는 법 더 자세하게 알아보자, 중간 테이블에 accountId 넣는 방법도 생각해보자
+    @Override
+    public List<Workspace> findByUserAccountId(String accountId){
+        return em.createQuery(
+            "select distinct w from Workspace w" +
+            " join fetch w.userWorkspaces uw" +
+            " where :accountId in uw.user.accountId", Workspace.class)
+            .setParameter("accountId", accountId)
+            .getResultList();
+    }
 }

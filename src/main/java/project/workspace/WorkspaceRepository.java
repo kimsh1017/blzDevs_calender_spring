@@ -12,4 +12,6 @@ public interface WorkspaceRepository{
     public List<Workspace> findAll(int offset, int limit);
     
     public List<Workspace> findByName(String name);
+    
+    public List<Workspace> findByUserAccountId(String accountId);
 }

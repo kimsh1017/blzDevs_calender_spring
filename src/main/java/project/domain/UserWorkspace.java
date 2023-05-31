@@ -23,4 +23,6 @@ public class UserWorkspace{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    
+    //AccounrId Field 추가하기
 }

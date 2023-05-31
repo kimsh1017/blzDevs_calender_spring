@@ -32,4 +32,16 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
             .setMaxResults(limit)
             .getResultList();
     }
+    
+    @Override
+    public List<Schedule> findByWorkspaceName(int offset, int limit, String workspaceName){
+        return em.createQuery(
+            "select s from Schedule s" +
+            " join fetch s.workspace w" +
+            " where w.name = :workspaceName", Schedule.class)
+            .setParameter("workspaceName", workspaceName)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+    }
 }

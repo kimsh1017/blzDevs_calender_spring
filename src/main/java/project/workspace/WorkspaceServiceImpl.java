@@ -40,9 +40,14 @@ public class WorkspaceServiceImpl implements WorkspaceService{
         return workspace.getId();
     }
     
-    
+    @Override
     public List<Workspace> findAll(int offset, int limit){
         return workspaceRepository.findAll(offset, limit);
+    }
+    
+    @Override
+    public List<Workspace> findByUserAccountId(String accountId){
+        return workspaceRepository.findByUserAccountId(accountId);
     }
     
     //bool 형으로 바꿔서 검증 함수 만들면 재사용성 더 좋을듯

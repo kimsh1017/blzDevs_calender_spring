@@ -11,5 +11,5 @@ public interface ScheduleRepository{
     
     public List<Schedule> findAll(int offset, int limit);
     
-    // public List<Workspace> findByName(String name);
+    public List<Schedule> findByWorkspaceName(int offset, int limit, String workspaceName);
 }

@@ -19,8 +19,17 @@ public class ScheduleController {
     
     @GetMapping("/schedules")
     public Response findAllSchedule(@RequestParam(value = "offset", defaultValue = "0") int offset,
-                                  @RequestParam(value = "limit", defaultValue = "100") int limit){
-        List<Schedule> findSchedules = scheduleService.findAll(offset, limit);
+                                  @RequestParam(value = "limit", defaultValue = "100") int limit,
+                                 @RequestParam(value = "workspace", required = false) String workspaceName ){
+        
+        List<Schedule> findSchedules = scheduleService.findSchedules(offset, limit, workspaceName);
+        
+        // if (workspaceName == null){
+        //     findSchedules = scheduleService.findAll(offset, limit);
+        // }
+        // else{
+        //     findSchedules = scheduleService.findByWorkspaceName(offset, limit, workspaceName);
+        // }
             
         List<ScheduleDto> collect = findSchedules.stream()
             .map(schedule -> new ScheduleDto(schedule.getId(), schedule.getWorkspace(), schedule.getName(), schedule.getUserSchedules()))

@@ -18,9 +18,18 @@ public class WorkspaceController{
     
     @GetMapping("/workspaces")
     public Response findAllWorkspaces(@RequestParam(value = "offset", defaultValue = "0") int offset,
-                                  @RequestParam(value = "limit", defaultValue = "100") int limit){
-        List<Workspace> findWorkspaces = workspaceService.findAll(offset, limit);
-            
+                                  @RequestParam(value = "limit", defaultValue = "100") int limit,
+                                @RequestParam(value="accountId", required = false) String accountId){
+        
+        List<Workspace> findWorkspaces;
+        
+        if (accountId == null ){
+            findWorkspaces = workspaceService.findAll(offset, limit);
+        }
+        else{
+            findWorkspaces = workspaceService.findByUserAccountId(accountId);
+        }
+        
         List<WorkspaceDto> collect = findWorkspaces.stream()
             .map(workspace -> new WorkspaceDto(workspace.getName(), workspace.getUserWorkspaces()))
             .collect(Collectors.toList());
