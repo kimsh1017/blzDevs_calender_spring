@@ -1,7 +1,7 @@
 package project.controller;
 
 import project.domain.*;
-import project.user.UserService;
+import project.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.AllArgsConstructor;

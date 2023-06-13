@@ -1,64 +1,68 @@
-project/workspace/WorkspaceService.java
- project.workspace.WorkspaceService
-project/schedule/ScheduleRepository.java
- project.schedule.ScheduleRepository
-project/workspace/WorkspaceServiceImpl.java
- project.workspace.WorkspaceServiceImpl
-project/schedule/ScheduleService.java
- project.schedule.ScheduleService
 project/domain/Workspace.java
  project.domain.Workspace
-project/devLog/DevLogService.java
- project.devLog.DevLogService
 project/domain/DevLog.java
  project.domain.DevLog
-project/user/UserRepositoryImpl.java
- project.user.UserRepositoryImpl
-project/devLog/DevLogRepositoryImpl.java
- project.devLog.DevLogRepositoryImpl
-project/workspace/WorkspaceRepositoryImpl.java
- project.workspace.WorkspaceRepositoryImpl
+project/dto/devLog/CreateDevLogRequest.java
+ project.dto.devLog.CreateDevLogRequest
+project/service/UserService.java
+ project.service.UserService
+project/repository/DevLogRepository.java
+ project.repository.DevLogRepository
+project/repository/DevLogRepositoryImpl.java
+ project.repository.DevLogRepositoryImpl
+project/repository/UserRepository.java
+ project.repository.UserRepository
 project/controller/WorkspaceController.java
  project.controller.WorkspaceController
  project.controller.WorkspaceController$CreateWorkspaceRequest
  project.controller.WorkspaceController$WorkspaceDto
+project/repository/ScheduleRepositoryImpl.java
+ project.repository.ScheduleRepositoryImpl
 project/domain/User.java
  project.domain.User
-project/workspace/WorkspaceRepository.java
- project.workspace.WorkspaceRepository
-project/devLog/DevLogRepository.java
- project.devLog.DevLogRepository
+project/service/WorkspaceService.java
+ project.service.WorkspaceService
+project/repository/UserRepositoryImpl.java
+ project.repository.UserRepositoryImpl
+project/service/ScheduleServiceImpl.java
+ project.service.ScheduleServiceImpl
 project/controller/UserController.java
  project.controller.UserController
  project.controller.UserController$UserDetailDto
  project.controller.UserController$UserDto
 project/Application.java
  project.Application
-project/schedule/ScheduleRepositoryImpl.java
- project.schedule.ScheduleRepositoryImpl
-project/user/UserRepository.java
- project.user.UserRepository
-project/schedule/ScheduleServiceImpl.java
- project.schedule.ScheduleServiceImpl
+project/dto/devLog/DevLogFindAllResponse.java
+ project.dto.devLog.DevLogFindAllResponse
+project/repository/ScheduleRepository.java
+ project.repository.ScheduleRepository
 project/controller/ScheduleController.java
  project.controller.ScheduleController
  project.controller.ScheduleController$CreateSchedulesRequest
  project.controller.ScheduleController$ScheduleDto
-project/user/UserService.java
- project.user.UserService
+project/service/ScheduleService.java
+ project.service.ScheduleService
+project/service/UserServiceImpl.java
+ project.service.UserServiceImpl
 project/controller/Response.java
  project.controller.Response
-project/user/UserServiceImpl.java
- project.user.UserServiceImpl
+project/service/DevLogService.java
+ project.service.DevLogService
+project/repository/WorkspaceRepository.java
+ project.repository.WorkspaceRepository
+project/service/WorkspaceServiceImpl.java
+ project.service.WorkspaceServiceImpl
 project/domain/Schedule.java
  project.domain.Schedule
 project/domain/UserSchedule.java
  project.domain.UserSchedule
+project/repository/WorkspaceRepositoryImpl.java
+ project.repository.WorkspaceRepositoryImpl
 project/domain/UserWorkspace.java
  project.domain.UserWorkspace
 project/controller/DevLogController.java
  project.controller.DevLogController
- project.controller.DevLogController$CreateDevLogRequest
- project.controller.DevLogController$DevLogDto
-project/devLog/DevLogServiceImpl.java
- project.devLog.DevLogServiceImpl
+project/dto/devLog/DevLogDto.java
+ project.dto.devLog.DevLogDto
+project/service/DevLogServiceImpl.java
+ project.service.DevLogServiceImpl

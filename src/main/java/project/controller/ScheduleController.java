@@ -1,7 +1,7 @@
 package project.controller;
 
 import project.domain.*;
-import project.schedule.ScheduleService;
+import project.service.ScheduleService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.AllArgsConstructor;

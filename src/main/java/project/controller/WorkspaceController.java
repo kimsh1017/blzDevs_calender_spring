@@ -1,7 +1,7 @@
 package project.controller;
 
 import project.domain.*;
-import project.workspace.WorkspaceService;
+import project.service.WorkspaceService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.AllArgsConstructor;
