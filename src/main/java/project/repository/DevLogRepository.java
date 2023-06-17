@@ -9,5 +9,5 @@ public interface DevLogRepository{
     
     public List<DevLog> findAll();
     
-    public List<DevLog> searchDevLogs(int offset, int limit, String scheduleId, String accountId);
+    public List<DevLog> searchDevLogs(int offset, int limit, Long scheduleId, String accountId);
 }

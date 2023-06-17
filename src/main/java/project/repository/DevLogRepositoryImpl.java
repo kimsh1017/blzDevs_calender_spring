@@ -1,5 +1,7 @@
 package project.repository;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import static project.domain.QDevLog.devLog;
 import project.domain.*;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class DevLogRepositoryImpl implements DevLogRepository{
     
     private final EntityManager em;
+    private final JPAQueryFactory qf;
     
     @Override
     public void save(DevLog devLog){
@@ -28,14 +31,16 @@ public class DevLogRepositoryImpl implements DevLogRepository{
     }
     
     @Override
-    public List<DevLog> searchDevLogs(int offset, int limit, String scheduleId, String accountId){
+    public List<DevLog> searchDevLogs(int offset, int limit, Long scheduleId, String accountId){
         // <== 여기 구현해야함 ==>
         // queryDSL 써서 구현해보자
+        // return em.createQuery(
+        //     "select d from DevLog d" +
+        //     " join fetch d.schedule s" +
+        //     " join fetch d.user u", DevLog.class)
+        //     .getResultList();
+        return qf.selectFrom(devLog)
+            .fetch();
         
-        return em.createQuery(
-            "select d from DevLog d" , DevLog.class)
-            .setFirstResult(offset)
-            .setMaxResults(limit)
-            .getResultList();
     }
 }

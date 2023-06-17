@@ -1,4 +1,2 @@
 ApplicationTests.java
  project.ApplicationTests
-project/controller/DevLogControllerTest.java
- project.controller.DevLogControllerTest

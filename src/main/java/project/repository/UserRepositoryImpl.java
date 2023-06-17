@@ -41,6 +41,7 @@ public class UserRepositoryImpl implements UserRepository{
     
     @Override
     public List<User> findUsersByAccounIdList(List<String> userAccountIds){
+        // <== 여기 in 쿼리 써서 리팩토링 하자" ==> //
         String QueryString = "select u from User u" + " where";
         
         for (int i = 0; i < userAccountIds.size() - 1; i++){
