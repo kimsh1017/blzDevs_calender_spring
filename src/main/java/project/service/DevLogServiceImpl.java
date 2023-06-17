@@ -26,13 +26,13 @@ public class DevLogServiceImpl implements DevLogService{
     
     @Transactional
     public Long createDevLog(CreateDevLogRequest createDevLogRequest){
-        
-        // 이미 로그 작성한 적 있는지 예외처리
-        validateDevLog(createDevLogRequest);
-        
+    
         Schedule schedule = scheduleRepository.findOne(createDevLogRequest.getScheduleId());
         
         User user = userRepository.findByAccountId(createDevLogRequest.getUserAccountId()).get(0);
+        
+        // 이미 로그 작성한 적 있는지 예외처리
+        validateDevLog(schedule, user);
         
         String content = createDevLogRequest.getContent();
         
@@ -44,9 +44,6 @@ public class DevLogServiceImpl implements DevLogService{
     
     @Override
     public DevLogFindAllResponse findAll(){
-        
-        //이게 더 깔끔한가
-        //List<DevLog> findDevLogs = devLogRepository.findAll()
         
         List<DevLogDto> collect = devLogRepository.findAll().stream()
             .map(DevLogDto::toDto)
@@ -61,7 +58,11 @@ public class DevLogServiceImpl implements DevLogService{
                                                 Long scheduleId, 
                                                 String accountId){
         
-        List<DevLogDto> collect = devLogRepository.searchDevLogs(limit,offset,scheduleId,accountId)
+        Schedule schedule = scheduleRepository.findOne(scheduleId);
+        
+        User user = userRepository.findByAccountId(accountId).get(0);
+        
+        List<DevLogDto> collect = devLogRepository.searchDevLogs(limit,offset,schedule, user)
             .stream()
             .map(DevLogDto::toDto)
             .collect(toList());
@@ -69,17 +70,14 @@ public class DevLogServiceImpl implements DevLogService{
         return new DevLogFindAllResponse(collect.size(), collect);
     }
     
-    private void validateDevLog(CreateDevLogRequest createDevLogRequest){
+    private void validateDevLog(Schedule schedule, User user){
         
         //검색용 페이징 설정
         int offset = 0;
         int limit = 100;
         
-        Long scheduleId = createDevLogRequest.getScheduleId();
-        String userAccountId = createDevLogRequest.getUserAccountId();
-        
-        List<DevLog> findDevLog = devLogRepository.searchDevLogs(offset, limit, scheduleId, userAccountId);
-        
+        List<DevLog> findDevLog = devLogRepository.searchDevLogs(offset, limit, schedule, user);
+
         if (!findDevLog.isEmpty()){
             throw new IllegalStateException("이미 존재하는 Id 입니다");
         }

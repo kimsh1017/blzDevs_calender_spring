@@ -1,6 +1,7 @@
 package project.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import static project.domain.QDevLog.devLog;
 import project.domain.*;
 import org.springframework.stereotype.Repository;
@@ -31,16 +32,24 @@ public class DevLogRepositoryImpl implements DevLogRepository{
     }
     
     @Override
-    public List<DevLog> searchDevLogs(int offset, int limit, Long scheduleId, String accountId){
-        // <== 여기 구현해야함 ==>
-        // queryDSL 써서 구현해보자
-        // return em.createQuery(
-        //     "select d from DevLog d" +
-        //     " join fetch d.schedule s" +
-        //     " join fetch d.user u", DevLog.class)
-        //     .getResultList();
+    public List<DevLog> searchDevLogs(int offset, int limit, Schedule schedule, User user){
         return qf.selectFrom(devLog)
+            .where(scheduleEq(schedule), userEq(user))
             .fetch();
-        
+    }
+    
+    private BooleanExpression scheduleEq(Schedule schedule){
+        if (schedule == null){
+            return null;
+        }
+        return devLog.schedule.eq(schedule);
+    }
+    
+    private BooleanExpression userEq(User user){
+        if (user == null){
+            return null;
+        }
+        return devLog.user.eq(user);
     }
 }
+

@@ -15,7 +15,7 @@ project/repository/DevLogRepositoryImpl.java
 project/repository/UserRepository.java
  project.repository.UserRepository
 project/AppConfig.java
- AppConfig
+ project.AppConfig
 project/controller/WorkspaceController.java
  project.controller.WorkspaceController
  project.controller.WorkspaceController$CreateWorkspaceRequest
