@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -21,6 +22,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     @Override
     public Schedule findOne(Long id){
         return em.find(Schedule.class, id);
+    }
+    
+    @Override
+    public Optional<Schedule> findOneOptional (Long id){
+        return Optional.ofNullable(em.find(Schedule.class, id));
     }
     
     @Override

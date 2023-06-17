@@ -23,8 +23,7 @@ public class DevLogController {
                                 @RequestParam(value="accountId", required = false) String accountId){
 
         // // <-- 여기 구현해야함 --> // 동적 쿼리 검색, 페이징
-        // // List<DevLog> findDevLogs = devLogService.findAllBySearch(offset, limit, scheduleId, accountId);
-        
+        // DevLogFindAllResponse response = devLogService.findAllBySearch(offset, limit, scheduleId, accountId);
         DevLogFindAllResponse response = devLogService.findAll();
         return ResponseEntity.ok(response);
     }

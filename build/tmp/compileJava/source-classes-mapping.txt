@@ -14,6 +14,8 @@ project/repository/DevLogRepositoryImpl.java
  project.repository.DevLogRepositoryImpl
 project/repository/UserRepository.java
  project.repository.UserRepository
+project/exception/devLog/NoSuchUserException.java
+ project.exception.devLog.NoSuchUserException
 project/AppConfig.java
  project.AppConfig
 project/controller/WorkspaceController.java
@@ -24,6 +26,8 @@ project/repository/ScheduleRepositoryImpl.java
  project.repository.ScheduleRepositoryImpl
 project/domain/User.java
  project.domain.User
+project/exception/devLog/NoSuchScheduleException.java
+ project.exception.devLog.NoSuchScheduleException
 project/service/WorkspaceService.java
  project.service.WorkspaceService
 project/repository/UserRepositoryImpl.java

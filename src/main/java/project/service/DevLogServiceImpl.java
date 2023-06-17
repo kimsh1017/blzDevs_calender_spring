@@ -2,6 +2,7 @@ package project.service;
 
 import project.domain.*;
 import project.dto.devLog.*;
+import project.exception.devLog.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +28,14 @@ public class DevLogServiceImpl implements DevLogService{
     @Transactional
     public Long createDevLog(CreateDevLogRequest createDevLogRequest){
     
-        Schedule schedule = scheduleRepository.findOne(createDevLogRequest.getScheduleId());
+        Schedule schedule = scheduleRepository.findOneOptional(createDevLogRequest.getScheduleId())
+            .orElseThrow(NoSuchScheduleException::new);
         
-        User user = userRepository.findByAccountId(createDevLogRequest.getUserAccountId()).get(0);
+        List<User> findUsers = userRepository.findByAccountId(createDevLogRequest.getUserAccountId());
+        if (findUsers.isEmpty()){
+            throw new NoSuchUserException();
+        }
+        User user = findUsers.get(0);
         
         // 이미 로그 작성한 적 있는지 예외처리
         validateDevLog(schedule, user);
@@ -58,11 +64,13 @@ public class DevLogServiceImpl implements DevLogService{
                                                 Long scheduleId, 
                                                 String accountId){
         
+        
+        // <== 여기 수정해야함 ==> 동적 파라미터 ??
         Schedule schedule = scheduleRepository.findOne(scheduleId);
         
         User user = userRepository.findByAccountId(accountId).get(0);
         
-        List<DevLogDto> collect = devLogRepository.searchDevLogs(limit,offset,schedule, user)
+        List<DevLogDto> collect = devLogRepository.searchDevLogs(limit, offset, schedule, user)
             .stream()
             .map(DevLogDto::toDto)
             .collect(toList());
