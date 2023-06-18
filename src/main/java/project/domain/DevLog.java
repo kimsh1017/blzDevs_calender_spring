@@ -32,4 +32,9 @@ public class DevLog{
         this.user = user;
         this.content = content;
     }
+    
+    // < == 수정 로직 ==>
+    public void updateContent(String content){
+        this.content = content;
+    }
 }

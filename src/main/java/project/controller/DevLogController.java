@@ -3,6 +3,7 @@ package project.controller;
 import project.domain.*;
 import project.dto.devLog.*;
 import project.service.DevLogService;
+import project.repository.DevLogRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 public class DevLogController {
     
     private final DevLogService devLogService;
+    private final DevLogRepository devLogRepository;
     
     @GetMapping("/devLogs")
     public ResponseEntity<DevLogFindAllResponse> findAllDevlogs(@RequestParam(value = "offset", defaultValue = "0") int offset,
@@ -32,5 +34,32 @@ public class DevLogController {
         Long devLogId = devLogService.createDevLog(createDevLogRequest);
         
         return ResponseEntity.ok(devLogId);
+    }
+    
+    @GetMapping("/devLogs/{devLogId}")
+    public ResponseEntity<DevLogDto> findSingleDevLog(@PathVariable("devLogId") Long devLogId){
+        
+        DevLogDto response = new DevLogDto(devLogRepository.findOne(devLogId));
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @PutMapping("/devLogs/{devLogId}")
+    public ResponseEntity<DevLogDto> updateDevLog(@PathVariable("devLogId") Long devLogId,
+                                                 @RequestBody UpdateDevLogRequest request){
+        
+        DevLog devLog = devLogService.updateDevLog(devLogId, request.getContent());
+        
+        DevLogDto response = new DevLogDto(devLog);
+            
+        return ResponseEntity.ok(response);
+    }
+    
+    @DeleteMapping("/devLogs/{devLogId}")
+    public ResponseEntity<DeleteDevLogResponse> deleteSingleDevLog(@PathVariable("devLogId") Long devLogId){
+        
+        devLogService.deleteDevLog(devLogId);
+        
+        return ResponseEntity.ok(new DeleteDevLogResponse());
     }
 }

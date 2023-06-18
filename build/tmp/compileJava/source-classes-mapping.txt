@@ -18,6 +18,8 @@ project/exception/devLog/NoSuchUserException.java
  project.exception.devLog.NoSuchUserException
 project/AppConfig.java
  project.AppConfig
+project/dto/devLog/UpdateDevLogRequest.java
+ project.dto.devLog.UpdateDevLogRequest
 project/controller/WorkspaceController.java
  project.controller.WorkspaceController
  project.controller.WorkspaceController$CreateWorkspaceRequest
@@ -44,6 +46,8 @@ project/dto/devLog/DevLogFindAllResponse.java
  project.dto.devLog.DevLogFindAllResponse
 project/repository/ScheduleRepository.java
  project.repository.ScheduleRepository
+project/dto/devLog/DeleteDevLogResponse.java
+ project.dto.devLog.DeleteDevLogResponse
 project/controller/ScheduleController.java
  project.controller.ScheduleController
  project.controller.ScheduleController$CreateSchedulesRequest

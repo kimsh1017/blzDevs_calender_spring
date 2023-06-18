@@ -23,6 +23,16 @@ public class DevLogRepositoryImpl implements DevLogRepository{
     }
     
     @Override
+    public void remove(DevLog devLog){
+        em.remove(devLog);
+    }
+    
+    @Override
+    public DevLog findOne(Long id){
+        return em.find(DevLog.class, id);
+    }
+    
+    @Override
     public List<DevLog> searchDevLogs(int offset, int limit, Schedule schedule, User user){
         return qf.selectFrom(devLog)
             .where(scheduleEq(schedule), userEq(user))

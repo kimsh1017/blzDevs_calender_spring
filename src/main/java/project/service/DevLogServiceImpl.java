@@ -61,6 +61,24 @@ public class DevLogServiceImpl implements DevLogService{
         return new DevLogFindAllResponse(collect.size(), collect);
     }
     
+    @Override
+    @Transactional
+    public DevLog updateDevLog(Long devLogId, String content){
+        DevLog findDevLog = devLogRepository.findOne(devLogId);
+        findDevLog.updateContent(content);
+        
+        return findDevLog;
+    }
+    
+    @Override
+    @Transactional
+    public void deleteDevLog(Long devLogId){
+        DevLog findDevLog = devLogRepository.findOne(devLogId);
+        
+        devLogRepository.remove(findDevLog);
+    }
+    
+    // < ======== validate logic ======== > //
     private void validateDevLog(Schedule schedule, User user){
         
         //검색용 페이징 설정

@@ -29,6 +29,8 @@ public class Schedule{
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL)
     private List<UserSchedule> userSchedules = new ArrayList <> ();
     
+    
+    // < == 연관관계 설정 메소드 == >
     public void addUserSchedule(UserSchedule userSchedule){
         this.userSchedules.add(userSchedule);
         userSchedule.setSchedule(this);
