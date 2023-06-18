@@ -19,12 +19,10 @@ public class DevLogController {
     @GetMapping("/devLogs")
     public ResponseEntity<DevLogFindAllResponse> findAllDevlogs(@RequestParam(value = "offset", defaultValue = "0") int offset,
                                   @RequestParam(value = "limit", defaultValue = "100") int limit,
-                                @RequestParam(value="schedule_Id", required = false) Long scheduleId,
+                                @RequestParam(value="scheduleId", required = false) Long scheduleId,
                                 @RequestParam(value="accountId", required = false) String accountId){
 
-        // // <-- 여기 구현해야함 --> // 동적 쿼리 검색, 페이징
-        // DevLogFindAllResponse response = devLogService.findAllBySearch(offset, limit, scheduleId, accountId);
-        DevLogFindAllResponse response = devLogService.findAll();
+        DevLogFindAllResponse response = devLogService.findAllBySearch(offset, limit, scheduleId, accountId);
         return ResponseEntity.ok(response);
     }
     

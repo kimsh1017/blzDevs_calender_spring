@@ -13,6 +13,8 @@ public interface UserRepository{
     
     public List<User> findAll();
     
+    public Optional<User> findOneOptional(String accountId);
+    
     public List<User> findByAccountId(String accountId);
     
     public List<User> findUsersByAccounIdList(List<String> userAccountIds);

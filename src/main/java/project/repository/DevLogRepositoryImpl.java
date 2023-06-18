@@ -23,15 +23,6 @@ public class DevLogRepositoryImpl implements DevLogRepository{
     }
     
     @Override
-    public List<DevLog> findAll(){
-        return em.createQuery(
-            "select d from DevLog d" +
-            " join fetch d.schedule s" +
-            " join fetch d.user u", DevLog.class)
-            .getResultList();
-    }
-    
-    @Override
     public List<DevLog> searchDevLogs(int offset, int limit, Schedule schedule, User user){
         return qf.selectFrom(devLog)
             .where(scheduleEq(schedule), userEq(user))

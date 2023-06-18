@@ -25,6 +25,21 @@ public class UserRepositoryImpl implements UserRepository{
     }
     
     @Override
+    public Optional<User> findOneOptional(String accountId){
+        
+        List<User> findUsers = em.createQuery(
+                                    "select u from User u" +
+                                    " where u.accountId =:accountId", User.class)
+                                    .setParameter("accountId", accountId)
+                                    .getResultList();
+        
+        if (findUsers.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.ofNullable(findUsers.get(0));
+    }
+    
+    @Override
     public List<User> findAll(){
         return em.createQuery(
             "select u from User u", User.class)
