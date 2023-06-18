@@ -9,21 +9,22 @@ import project.domain.DevLog;
 public class DevLogDto{
     private Long devLog_id;
     private Long scheduleId;
-    private String userName;
+    private String userAccountId;
     private String content;
     
-    public DevLogDto(DevLog devLog){
-        this.devLog_id = devLog.getId();
-        this.scheduleId = devLog.getSchedule().getId();
-        this.userName = devLog.getUser().getName();
-        this.content = devLog.getContent();
-    }
+    // 로직이 겹치서 제거
+    // public DevLogDto(DevLog devLog){
+    //     this.devLog_id = devLog.getId();
+    //     this.scheduleId = devLog.getSchedule().getId();
+    //     this.userAccountId = devLog.getUser().getAccountId();
+    //     this.content = devLog.getContent();
+    // }
     
     public static DevLogDto toDto(DevLog devLog){
         return new DevLogDto(
             devLog.getId(),
             devLog.getSchedule().getId(),
-            devLog.getUser().getName(),
+            devLog.getUser().getAccountId(),
             devLog.getContent()
         );
     }

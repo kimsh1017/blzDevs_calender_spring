@@ -25,6 +25,7 @@ public class DevLogController {
                                 @RequestParam(value="accountId", required = false) String accountId){
 
         DevLogFindAllResponse response = devLogService.findAllBySearch(offset, limit, scheduleId, accountId);
+        
         return ResponseEntity.ok(response);
     }
     
@@ -38,8 +39,9 @@ public class DevLogController {
     
     @GetMapping("/devLogs/{devLogId}")
     public ResponseEntity<DevLogDto> findSingleDevLog(@PathVariable("devLogId") Long devLogId){
+        DevLog devLog = devLogRepository.findOne(devLogId);
         
-        DevLogDto response = new DevLogDto(devLogRepository.findOne(devLogId));
+        DevLogDto response = DevLogDto.toDto(devLog);
         
         return ResponseEntity.ok(response);
     }
@@ -50,7 +52,7 @@ public class DevLogController {
         
         DevLog devLog = devLogService.updateDevLog(devLogId, request.getContent());
         
-        DevLogDto response = new DevLogDto(devLog);
+        DevLogDto response = DevLogDto.toDto(devLog);
             
         return ResponseEntity.ok(response);
     }
