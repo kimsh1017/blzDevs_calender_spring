@@ -8,6 +8,8 @@ public interface UserRepository{
     
     public void save(User user);
     
+    public void remove(User user);
+    
     //여기도 Optinal로 바꿔줘야함
     public User findOne(Long id);
     
@@ -18,4 +20,6 @@ public interface UserRepository{
     public List<User> findByAccountId(String accountId);
     
     public List<User> findUsersByAccounIdList(List<String> userAccountIds);
+    
+    public List<User> searchUsers(int offset, int limit, String accountId, String name);
 }

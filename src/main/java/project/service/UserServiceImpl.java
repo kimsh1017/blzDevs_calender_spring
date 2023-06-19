@@ -1,12 +1,16 @@
 package project.service;
 
 import project.domain.*;
+import project.dto.user.*;
+import project.exception.user.*;
 import project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+import static java.util.stream.Collectors.toList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,47 +19,55 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     
     //회원가입
+    @Override
     @Transactional
     public Long register(User user){
-        validateUser(user); //중복 회원 검증
+        //중복 회원 검증
+        validateUserAccountId(user.getAccountId());
+        
         userRepository.save(user);
         return user.getId();
     }
     
     //유저 단건 조회
-    @Transactional
+    @Override
     public User findOne(Long id){
+        //없는 아이디 아닌지 검증해봐야함 -> springData 사용하자
         return userRepository.findOne(id);
     }
     
-    //유저 전체 조회
-    @Transactional
-    public List<User> findAll(){
-        return userRepository.findAll();
+    @Override
+    public List<User> findAllBySearch(int offset, int limit, String accountId, String name){
+        return userRepository.searchUsers(offset,limit,accountId,name);
     }
     
-    //중복 회원 검증 로직
-    private void validateUser(User user){
-        List<User> findUsers = userRepository.findByAccountId(user.getAccountId());
-        if (!findUsers.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 Id 입니다");
-        }
-    }
-    
-    //이름으로 유저 조회
-    
-    //id로 유저 조회
+    //유저 정보 수정
     @Override
     @Transactional
-    public User findByAccountId(String accountId){
-        List<User> findUsers = userRepository.findByAccountId(accountId);
-        
-        if (findUsers.isEmpty()){
-            throw new IllegalStateException("없는 Id 입니다");
-        }
-        return findUsers.get(0);
+    public User updateUser(Long id, String password, String name){
+        User user = userRepository.findOne(id);
+        user.update(password,name);
+        return user;
     }
     
+    //유저 삭제
+    @Override
+    @Transactional
+    public void deleteUser(Long id){
+        
+        User user = userRepository.findOne(id);
+        
+        userRepository.remove(user);
+    }
+    
+    // < == validate logic ==> //
+    private void validateUserAccountId(String accountId){
+        Optional<User> findUser = userRepository.findOneOptional(accountId);
+        
+        if (!findUser.isEmpty()){
+            throw new UserAlreadyExistException();
+        }
+    }
     
     //로그인
     

@@ -1,22 +1,32 @@
 package project.repository;
 
 import project.domain.*;
+import static project.domain.QUser.user;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 @Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository{
     
     private final EntityManager em;
+    private final JPAQueryFactory qf;
     
     @Override
     public void save(User user){
         em.persist(user);
+    }
+    
+    @Override
+    public void remove(User user){
+        em.remove(user);
     }
     
     @Override
@@ -73,5 +83,28 @@ public class UserRepositoryImpl implements UserRepository{
         return em.createQuery(
             QueryString, User.class)
             .getResultList();
+    }
+    
+    @Override
+    public List<User> searchUsers(int offset, int limit, String accountId, String name){
+        
+        return qf.selectFrom(user)
+            .where(accountIdEq(accountId), nameEq(name))
+            .fetch();     
+    }
+    
+    // < == eq method == >
+    private BooleanExpression accountIdEq(String accountId){
+        if (accountId == null){
+            return null;
+        }
+        return user.accountId.eq(accountId);
+    }
+    
+    private BooleanExpression nameEq(String name){
+        if (name == null){
+            return null;
+        }
+        return user.name.eq(name);
     }
 }

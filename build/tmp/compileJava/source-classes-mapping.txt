@@ -1,7 +1,5 @@
 project/domain/QUserWorkspace.java
  project.domain.QUserWorkspace
-project/domain/Workspace.java
- project.domain.Workspace
 project/domain/DevLog.java
  project.domain.DevLog
 project/dto/devLog/CreateDevLogRequest.java
@@ -10,40 +8,70 @@ project/service/UserService.java
  project.service.UserService
 project/repository/DevLogRepository.java
  project.repository.DevLogRepository
-project/repository/DevLogRepositoryImpl.java
- project.repository.DevLogRepositoryImpl
 project/repository/UserRepository.java
  project.repository.UserRepository
 project/exception/devLog/NoSuchUserException.java
  project.exception.devLog.NoSuchUserException
-project/AppConfig.java
- project.AppConfig
-project/dto/devLog/UpdateDevLogRequest.java
- project.dto.devLog.UpdateDevLogRequest
 project/controller/WorkspaceController.java
  project.controller.WorkspaceController
  project.controller.WorkspaceController$CreateWorkspaceRequest
  project.controller.WorkspaceController$WorkspaceDto
-project/repository/ScheduleRepositoryImpl.java
- project.repository.ScheduleRepositoryImpl
 project/domain/User.java
  project.domain.User
-project/exception/devLog/NoSuchScheduleException.java
- project.exception.devLog.NoSuchScheduleException
 project/service/WorkspaceService.java
  project.service.WorkspaceService
+project/dto/user/DeleteUserResponse.java
+ project.dto.user.DeleteUserResponse
 project/repository/UserRepositoryImpl.java
  project.repository.UserRepositoryImpl
-project/service/ScheduleServiceImpl.java
- project.service.ScheduleServiceImpl
 project/controller/UserController.java
  project.controller.UserController
- project.controller.UserController$UserDetailDto
- project.controller.UserController$UserDto
-project/Application.java
- project.Application
 project/dto/devLog/DevLogFindAllResponse.java
  project.dto.devLog.DevLogFindAllResponse
+project/exception/user/UserAlreadyExistException.java
+ project.exception.user.UserAlreadyExistException
+project/domain/QSchedule.java
+ project.domain.QSchedule
+project/domain/QDevLog.java
+ project.domain.QDevLog
+project/dto/user/UpdateUserRequest.java
+ project.dto.user.UpdateUserRequest
+project/controller/Response.java
+ project.controller.Response
+project/domain/QWorkspace.java
+ project.domain.QWorkspace
+project/repository/WorkspaceRepository.java
+ project.repository.WorkspaceRepository
+project/service/WorkspaceServiceImpl.java
+ project.service.WorkspaceServiceImpl
+project/domain/Schedule.java
+ project.domain.Schedule
+project/repository/WorkspaceRepositoryImpl.java
+ project.repository.WorkspaceRepositoryImpl
+project/domain/UserWorkspace.java
+ project.domain.UserWorkspace
+project/domain/QUser.java
+ project.domain.QUser
+project/service/DevLogServiceImpl.java
+ project.service.DevLogServiceImpl
+project/dto/user/FindAllUserResponse.java
+ project.dto.user.FindAllUserResponse
+project/domain/Workspace.java
+ project.domain.Workspace
+project/repository/DevLogRepositoryImpl.java
+ project.repository.DevLogRepositoryImpl
+project/AppConfig.java
+ project.AppConfig
+project/dto/devLog/UpdateDevLogRequest.java
+ project.dto.devLog.UpdateDevLogRequest
+project/repository/ScheduleRepositoryImpl.java
+ project.repository.ScheduleRepositoryImpl
+project/exception/devLog/NoSuchScheduleException.java
+ project.exception.devLog.NoSuchScheduleException
+project/service/ScheduleServiceImpl.java
+ project.service.ScheduleServiceImpl
+project/Application.java
+ project.Application
 project/repository/ScheduleRepository.java
  project.repository.ScheduleRepository
 project/dto/devLog/DeleteDevLogResponse.java
@@ -56,34 +84,18 @@ project/service/ScheduleService.java
  project.service.ScheduleService
 project/service/UserServiceImpl.java
  project.service.UserServiceImpl
-project/domain/QSchedule.java
- project.domain.QSchedule
-project/domain/QDevLog.java
- project.domain.QDevLog
-project/controller/Response.java
- project.controller.Response
+project/dto/user/CreateUserRequest.java
+ project.dto.user.CreateUserRequest
+project/dto/user/UserDto.java
+ project.dto.user.UserDto
+project/dto/user/FindSingleUserResponse.java
+ project.dto.user.FindSingleUserResponse
 project/service/DevLogService.java
  project.service.DevLogService
-project/domain/QWorkspace.java
- project.domain.QWorkspace
-project/repository/WorkspaceRepository.java
- project.repository.WorkspaceRepository
-project/service/WorkspaceServiceImpl.java
- project.service.WorkspaceServiceImpl
 project/domain/QUserSchedule.java
  project.domain.QUserSchedule
-project/domain/Schedule.java
- project.domain.Schedule
 project/domain/UserSchedule.java
  project.domain.UserSchedule
-project/repository/WorkspaceRepositoryImpl.java
- project.repository.WorkspaceRepositoryImpl
-project/domain/UserWorkspace.java
- project.domain.UserWorkspace
-project/domain/QUser.java
- project.domain.QUser
-project/service/DevLogServiceImpl.java
- project.service.DevLogServiceImpl
 project/dto/devLog/DevLogDto.java
  project.dto.devLog.DevLogDto
 project/controller/DevLogController.java
