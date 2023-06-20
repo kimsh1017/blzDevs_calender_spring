@@ -7,7 +7,7 @@ import project.domain.DevLog;
 @Getter
 @AllArgsConstructor
 public class DevLogDto{
-    private Long devLog_id;
+    private Long devLogId;
     private Long scheduleId;
     private String userAccountId;
     private String content;
@@ -20,13 +20,11 @@ public class DevLogDto{
     //     this.content = devLog.getContent();
     // }
     
-    public static DevLogDto toDto(DevLog devLog){
-        return new DevLogDto(
-            devLog.getId(),
-            devLog.getSchedule().getId(),
-            devLog.getUser().getAccountId(),
-            devLog.getContent()
-        );
+    public DevLogDto (DevLog devLog){
+        this.devLogId = devLog.getId();
+        this.scheduleId = devLog.getSchedule().getId();
+        this.userAccountId = devLog.getUser().getAccountId();
+        this.content = devLog.getContent();
     }
 }
 

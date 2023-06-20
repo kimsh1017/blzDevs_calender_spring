@@ -11,11 +11,9 @@ public class UserDto {
     private String accountId;
     private String name;
     
-    public static UserDto toDto(User user){
-        return new UserDto(
-            user.getId(),
-            user.getAccountId(),
-            user.getName()
-        );
+    public UserDto(User user){
+        this.id = user.getId();
+        this.accountId = user.getAccountId();
+        this.name = user.getName();
     }
 }

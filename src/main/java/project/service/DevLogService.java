@@ -11,7 +11,7 @@ public interface DevLogService{
 
     public Long createDevLog(CreateDevLogRequest createDevLogRequest);
     
-    public DevLogFindAllResponse findAllBySearch(int offset, int limit, Long scheduleId, String accountId);
+    public List<DevLog> findAllBySearch(int offset, int limit, Long scheduleId, String accountId);
 
     public DevLog updateDevLog(Long devLogId, String content);
     

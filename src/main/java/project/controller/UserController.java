@@ -27,7 +27,7 @@ public class UserController{
         
         List<UserDto> responseData = userService.findAllBySearch(offset, limit, accountId, name)
             .stream()
-            .map(UserDto::toDto)
+            .map(UserDto::new)
             .collect(toList());
         
         FindAllUserResponse response = new FindAllUserResponse(responseData.size(), responseData);

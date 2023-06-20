@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -24,7 +24,12 @@ public class DevLogController {
                                 @RequestParam(value="scheduleId", required = false) Long scheduleId,
                                 @RequestParam(value="accountId", required = false) String accountId){
 
-        DevLogFindAllResponse response = devLogService.findAllBySearch(offset, limit, scheduleId, accountId);
+        List <DevLogDto> responseData = devLogService.findAllBySearch(offset, limit, scheduleId, accountId)
+            .stream()
+            .map(DevLogDto::new)
+            .collect(toList());
+        
+        DevLogFindAllResponse response = new DevLogFindAllResponse(responseData.size(), responseData);
         
         return ResponseEntity.ok(response);
     }
@@ -41,7 +46,7 @@ public class DevLogController {
     public ResponseEntity<DevLogDto> findSingleDevLog(@PathVariable("devLogId") Long devLogId){
         DevLog devLog = devLogRepository.findOne(devLogId);
         
-        DevLogDto response = DevLogDto.toDto(devLog);
+        DevLogDto response = new DevLogDto(devLog);
         
         return ResponseEntity.ok(response);
     }
@@ -52,7 +57,7 @@ public class DevLogController {
         
         DevLog devLog = devLogService.updateDevLog(devLogId, request.getContent());
         
-        DevLogDto response = DevLogDto.toDto(devLog);
+        DevLogDto response = new DevLogDto(devLog);
             
         return ResponseEntity.ok(response);
     }

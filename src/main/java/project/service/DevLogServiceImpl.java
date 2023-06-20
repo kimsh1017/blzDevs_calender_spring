@@ -14,7 +14,6 @@ import project.repository.DevLogRepository;
 import project.repository.UserRepository;
 import project.repository.ScheduleRepository;
 import project.dto.devLog.CreateDevLogRequest;
-import static java.util.stream.Collectors.toList;
 
 
 @Service
@@ -45,7 +44,7 @@ public class DevLogServiceImpl implements DevLogService{
     }
     
     @Override
-    public DevLogFindAllResponse findAllBySearch(int offset,
+    public List<DevLog> findAllBySearch(int offset,
                                                 int limit, 
                                                 Long scheduleId, 
                                                 String accountId){
@@ -53,12 +52,7 @@ public class DevLogServiceImpl implements DevLogService{
         Schedule schedule = validateScheduleId(scheduleId);
         User user = validateAccountId(accountId);
             
-        List<DevLogDto> collect = devLogRepository.searchDevLogs(limit, offset, schedule, user)
-            .stream()
-            .map(DevLogDto::toDto)
-            .collect(toList());
-        
-        return new DevLogFindAllResponse(collect.size(), collect);
+        return devLogRepository.searchDevLogs(limit, offset, schedule, user);
     }
     
     @Override

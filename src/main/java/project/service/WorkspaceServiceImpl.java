@@ -1,6 +1,7 @@
 package project.service;
 
 import project.domain.*;
+import project.dto.workspace.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.repository.WorkspaceRepository;
@@ -9,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -20,20 +21,21 @@ public class WorkspaceServiceImpl implements WorkspaceService{
         
     // 성능 개선 필요
     @Transactional
-    public Long makeWorkspace(String name, List<String> userAccountIds){
+    public Long makeWorkspace(CreateWorkspaceRequest request){
+        
+        String name = request.getName();
         //중복 이름 검증
         validateWorkspace(name);
         
-        List <User> findUsers = userRepository.findUsersByAccounIdList(userAccountIds);
-        
         // 중간 테이블 만들기
-        List<UserWorkspace> userWorkspaces = findUsers.stream()
+        List<UserWorkspace> userWorkspaces = userRepository.findUsersByAccounIdList(request.getUsers())
+            .stream()
             .map(user -> {
                 UserWorkspace userWorkspace = new UserWorkspace();
                 userWorkspace.setUser(user);
                 return userWorkspace;
             })
-            .collect(Collectors.toList());
+            .collect(toList());
         
         //Workspace 생성
         Workspace workspace = Workspace.createWorkspace(name, userWorkspaces);
