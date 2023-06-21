@@ -70,6 +70,8 @@ project/repository/ScheduleRepositoryImpl.java
  project.repository.ScheduleRepositoryImpl
 project/dto/workspace/CreateWorkspaceRequest.java
  project.dto.workspace.CreateWorkspaceRequest
+project/dto/workspace/DeleteWorkspaceResponse.java
+ project.dto.workspace.DeleteWorkspaceResponse
 project/exception/devLog/NoSuchScheduleException.java
  project.exception.devLog.NoSuchScheduleException
 project/service/ScheduleServiceImpl.java

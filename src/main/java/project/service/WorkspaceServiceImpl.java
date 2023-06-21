@@ -30,17 +30,26 @@ public class WorkspaceServiceImpl implements WorkspaceService{
         // 중간 테이블 만들기
         List<UserWorkspace> userWorkspaces = userRepository.findUsersByAccounIdList(request.getUsers())
             .stream()
-            .map(user -> {
-                UserWorkspace userWorkspace = new UserWorkspace();
-                userWorkspace.setUser(user);
-                return userWorkspace;
-            })
+            .map(UserWorkspace::new)
             .collect(toList());
         
         //Workspace 생성
-        Workspace workspace = Workspace.createWorkspace(name, userWorkspaces);
+        Workspace workspace = new Workspace(name, userWorkspaces);
         workspaceRepository.save(workspace);
         return workspace.getId();
+    }
+    
+    @Override
+    @Transactional
+    public void removeWorkspace(Long id){
+        Workspace findWorkspace = workspaceRepository.findOne(id);
+        
+        workspaceRepository.remove(findWorkspace);
+    }
+    
+    @Override
+    public Workspace findOne(Long id){
+        return workspaceRepository.findOne(id);
     }
     
     @Override
@@ -51,6 +60,23 @@ public class WorkspaceServiceImpl implements WorkspaceService{
     @Override
     public List<Workspace> findByUserAccountId(String accountId){
         return workspaceRepository.findByUserAccountId(accountId);
+    }
+    
+    @Override
+    @Transactional
+    public Workspace updateWorkspace(Long id, CreateWorkspaceRequest request){
+        Workspace workspace = workspaceRepository.findOne(id);
+        String name = request.getName();
+        //중복 이름 검증
+        validateWorkspace(name);
+        
+        List<UserWorkspace> userWorkspaces = userRepository.findUsersByAccounIdList(request.getUsers())
+            .stream()
+            .map(UserWorkspace::new)
+            .collect(toList());
+        
+        workspace.updateWorkspace(name, userWorkspaces);
+        return workspace;
     }
     
     //bool 형으로 바꿔서 검증 함수 만들면 재사용성 더 좋을듯

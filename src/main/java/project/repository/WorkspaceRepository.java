@@ -7,6 +7,8 @@ public interface WorkspaceRepository{
     
     public void save(Workspace workspace);
     
+    public void remove(Workspace workspace);
+    
     public Workspace findOne(Long id);
     
     public List<Workspace> findAll(int offset, int limit);

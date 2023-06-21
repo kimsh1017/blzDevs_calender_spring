@@ -6,10 +6,12 @@ import lombok.Setter;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user_workspace")
 @Getter @Setter
+@NoArgsConstructor
 public class UserWorkspace{
     
     @Id @GeneratedValue
@@ -23,6 +25,10 @@ public class UserWorkspace{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    
+    public UserWorkspace(User user){
+        this.user = user;
+    }
     
     //AccounrId Field 추가하기
 }

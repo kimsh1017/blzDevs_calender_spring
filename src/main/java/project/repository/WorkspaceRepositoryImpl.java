@@ -19,6 +19,11 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository{
     }
     
     @Override
+    public void remove(Workspace workspace){
+        em.remove(workspace);
+    }
+    
+    @Override
     public Workspace findOne(Long id){
         return em.find(Workspace.class, id);
     }

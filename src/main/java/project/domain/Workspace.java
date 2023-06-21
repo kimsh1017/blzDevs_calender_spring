@@ -3,6 +3,7 @@ package project.domain;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "workspaces")
 @Getter @Setter
+@NoArgsConstructor
 public class Workspace{
     
     @Id @GeneratedValue
@@ -18,27 +20,26 @@ public class Workspace{
 
     private String name;
     
-    @OneToMany(mappedBy="workspace", cascade = CascadeType.ALL)
-    private List<UserWorkspace> userWorkspaces = new ArrayList<> ();
+    @OneToMany(mappedBy="workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserWorkspace> userWorkspaces = new ArrayList<>();
     
-    
-    // 연관관계 편의 메소드
-    public void addUserWorkspace(UserWorkspace userWorkspace){
-        this.userWorkspaces.add(userWorkspace);
-        userWorkspace.setWorkspace(this);
-    }
-    
-    
-    // <== 생성 메소드 ==> //
-    public static Workspace createWorkspace(String name, List<UserWorkspace> userWorkspaces){
-        Workspace workspace = new Workspace();
-        
-        workspace.setName(name);
+    public Workspace(String name, List<UserWorkspace> userWorkspaces){
+        this.name = name;
+        this.userWorkspaces.addAll(userWorkspaces);
         
         for (UserWorkspace userWorkspace : userWorkspaces){
-            workspace.addUserWorkspace(userWorkspace);
+            userWorkspace.setWorkspace(this);
         }
+    }
+    // 수정 로직
+    
+    public void updateWorkspace(String name, List<UserWorkspace> userWorkspaces){
+        this.name = name;
+        this.userWorkspaces.clear();
+        this.userWorkspaces.addAll(userWorkspaces);
         
-        return workspace;
+        for (UserWorkspace userWorkspace : userWorkspaces){
+            userWorkspace.setWorkspace(this);
+        }
     }
 }
