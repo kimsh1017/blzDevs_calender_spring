@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -68,7 +69,9 @@ public class WorkspaceServiceImpl implements WorkspaceService{
         Workspace workspace = workspaceRepository.findOne(id);
         String name = request.getName();
         //중복 이름 검증
-        validateWorkspace(name);
+        if (!workspace.getName().equals(name)){
+            validateWorkspace(name);
+        }
         
         List<UserWorkspace> userWorkspaces = userRepository.findUsersByAccounIdList(request.getUsers())
             .stream()
@@ -81,9 +84,9 @@ public class WorkspaceServiceImpl implements WorkspaceService{
     
     //bool 형으로 바꿔서 검증 함수 만들면 재사용성 더 좋을듯
     private void validateWorkspace(String name){
-        List<Workspace> findWorkspaces = workspaceRepository.findByName(name);
-        if (!findWorkspaces.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 Id 입니다");
+        Optional<Workspace> findWorkspace = workspaceRepository.findByName(name);
+        if (!findWorkspace.isEmpty()){
+            throw new IllegalStateException("이미 존재하는 Workspace 입니다");
         }
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -37,12 +38,17 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository{
     }
     
     @Override
-    public List<Workspace> findByName(String name){
-        return em.createQuery(
-            "select w from Workspace w" +
-            " where w.name = :name", Workspace.class)
-            .setParameter("name", name)
-            .getResultList();
+    public Optional<Workspace> findByName(String name){
+        List<Workspace> workspaces =  em.createQuery(
+                                        "select w from Workspace w" +
+                                        " where w.name = :name", Workspace.class)
+                                        .setParameter("name", name)
+                                        .getResultList();
+        
+        if (workspaces.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.ofNullable(workspaces.get(0));
     }
     
     //in 쿼리 쓰는 법 더 자세하게 알아보자, 중간 테이블에 accountId 넣는 방법도 생각해보자

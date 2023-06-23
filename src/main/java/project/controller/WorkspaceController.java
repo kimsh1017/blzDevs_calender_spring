@@ -41,11 +41,11 @@ public class WorkspaceController{
     }
     
     @GetMapping("/workspaces/{workspaceId}")
-    public ResponseEntity<WorkspaceDto> findAllWorkspaces(@PathVariable Long workspaceId){
+    public ResponseEntity<FindSingleWorkspaceResponse> findAllWorkspaces(@PathVariable Long workspaceId){
         
         Workspace findWorkspace = workspaceService.findOne(workspaceId);
         
-        WorkspaceDto response = new WorkspaceDto(findWorkspace);
+        FindSingleWorkspaceResponse response = new FindSingleWorkspaceResponse(findWorkspace);
         
         return ResponseEntity.ok(response);
     }
@@ -68,8 +68,6 @@ public class WorkspaceController{
         
         return ResponseEntity.ok(new DeleteWorkspaceResponse());
     }
-    
-    
     
     // 나중에 유저에 역할 부여 가능
                  

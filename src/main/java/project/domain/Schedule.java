@@ -3,6 +3,7 @@ package project.domain;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "schedules")
 @Getter @Setter
+@NoArgsConstructor
 public class Schedule{
     
     @Id @GeneratedValue
@@ -26,9 +28,11 @@ public class Schedule{
     @JoinColumn(name = "workspace_id")
     private Workspace workspace;
     
-    @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserSchedule> userSchedules = new ArrayList <> ();
-    
+        
+    @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DevLog> devLogs = new ArrayList <> ();
     
     // < == 연관관계 설정 메소드 == >
     public void addUserSchedule(UserSchedule userSchedule){
@@ -36,23 +40,26 @@ public class Schedule{
         userSchedule.setSchedule(this);
     }
     
-    // <== 생성 메소드 ==>
-    public static Schedule createSchedule(Workspace workspace, String name, LocalDateTime startDate, LocalDateTime endDate, List<UserSchedule> userSchedules){
-        Schedule schedule = new Schedule();
-        schedule.setWorkspace(workspace);
-        schedule.setName(name);
-        schedule.setStartDate(startDate);
-        schedule.setEndDate(endDate);
-        // schedule.setUserSchedules(userSchedules);
+    // 생성자
+    public Schedule(Workspace workspace, String name, List<UserSchedule> userSchedules){
+        this.workspace = workspace;
+        this.name = name;
+        this.userSchedules.addAll(userSchedules);
         
-        // for (UserSchedule userSchedule : userSchedules){
-        //     userSchedule.setSchedule(schedule);
-        // }
         for (UserSchedule userSchedule : userSchedules){
-            schedule.addUserSchedule(userSchedule);
+            userSchedule.setSchedule(this);
+        }
+    }
+    
+    //수정 메소드
+    public void update(String name, List<UserSchedule> userSchedules){
+        this.name = name;
+        this.userSchedules.clear();
+        this.userSchedules.addAll(userSchedules);
+        
+        for (UserSchedule userSchedule : userSchedules){
+            userSchedule.setSchedule(this);
         }
         
-        
-        return schedule;
     }
 }

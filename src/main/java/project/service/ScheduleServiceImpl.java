@@ -1,13 +1,16 @@
 package project.service;
 
 import project.domain.*;
+import project.dto.schedule.*;
+import project.exception.schedule.*;
+import project.exception.devLog.NoSuchUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 import project.repository.ScheduleRepository;
 import project.repository.UserRepository;
 import project.repository.WorkspaceRepository;
@@ -22,40 +25,68 @@ public class ScheduleServiceImpl implements ScheduleService{
     private final WorkspaceRepository workspaceRepository;
     
     @Override
-    public List<Schedule> findAll(int offset, int limit){
-        return scheduleRepository.findAll(offset, limit);
+    @Transactional(readOnly = true)
+    public Schedule findOne(Long id){
+        return scheduleRepository.findOne(id);
     }
     
     @Override
-    public List<Schedule> findSchedules(int offset, int limit, String workspaceName){
-        if (workspaceName == null){
-            return scheduleRepository.findAll(offset, limit);
-        }
-        else{
-            return scheduleRepository.findByWorkspaceName(offset, limit, workspaceName);
-        }
+    @Transactional(readOnly = true)
+    public List<Schedule> findSchedules(int offset, int limit,String accountId){
+        
+        User user = validateUser(accountId);
+        
+        return scheduleRepository.findAll(offset, limit, user);
     }
     
     @Override
     @Transactional
-    public Long createSchedule(String workspace, String name, LocalDateTime startDate, LocalDateTime endDate, List<String> userAccountIds){
-        //구현 시작
-        //예외처리 필요할듯? nullPointerException 가능
-        Workspace findWorkspace = workspaceRepository.findByName(workspace).get(0);
+    public Long createSchedule(CreateScheduleRequest request){
+    
+        Workspace workspace = workspaceRepository.findByName(request.getWorkspace())
+            .orElseThrow(NoSuchWorkspaceException::new);
         
-        List <User> findUsers = userRepository.findUsersByAccounIdList(userAccountIds);
-        
+        String name = request.getName();    
         // 중간 테이블 만들기
-        List<UserSchedule> userSchedules = findUsers.stream()
-            .map(user -> {
-                UserSchedule userSchedule = new UserSchedule();
-                userSchedule.setUser(user);
-                return userSchedule;
-            })
-            .collect(Collectors.toList());
+        List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
+            .stream()
+            .map(UserSchedule::new)
+            .collect(toList());
         
-        Schedule schedule = Schedule.createSchedule(findWorkspace, name, startDate, endDate, userSchedules);
+        Schedule schedule = new Schedule(workspace, name, userSchedules);
         scheduleRepository.save(schedule);
         return schedule.getId();
+    }
+    
+    @Override
+    @Transactional
+    public Schedule updateSchedule(Long scheduleId, UpdateScheduleRequest request){
+        Schedule schedule = scheduleRepository.findOne(scheduleId);
+        
+        String name = request.getName();
+        
+        List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
+            .stream()
+            .map(UserSchedule::new)
+            .collect(toList());
+        
+        schedule.update(name,userSchedules);
+        
+        return schedule;
+    }
+    
+    @Override
+    @Transactional
+    public void removeSchedule(Long id){
+        Schedule schedule = scheduleRepository.findOne(id);
+        scheduleRepository.remove(schedule);
+    }
+    
+    private User validateUser(String accountId){
+        if (accountId == null){
+            return null;
+        }
+        return userRepository.findOneOptional(accountId)
+                .orElseThrow(NoSuchUserException::new);
     }
 }

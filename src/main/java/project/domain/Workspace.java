@@ -23,6 +23,9 @@ public class Workspace{
     @OneToMany(mappedBy="workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserWorkspace> userWorkspaces = new ArrayList<>();
     
+    @OneToMany(mappedBy="workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules = new ArrayList<>();
+    
     public Workspace(String name, List<UserWorkspace> userWorkspaces){
         this.name = name;
         this.userWorkspaces.addAll(userWorkspaces);
@@ -32,7 +35,6 @@ public class Workspace{
         }
     }
     // 수정 로직
-    
     public void updateWorkspace(String name, List<UserWorkspace> userWorkspaces){
         this.name = name;
         this.userWorkspaces.clear();

@@ -7,16 +7,28 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import static project.domain.QSchedule.schedule;
+import static project.domain.QUserSchedule.userSchedule;
+import static project.domain.QWorkspace.workspace;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.types.dsl.BooleanExpression;
+
 
 @Repository
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleRepository{
     
     private final EntityManager em;
+    private final JPAQueryFactory qf;
     
     @Override
     public void save(Schedule schedule){
         em.persist(schedule);
+    }
+    
+    @Override
+    public void remove(Schedule schedule){
+        em.remove(schedule);
     }
     
     @Override
@@ -30,13 +42,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     }
     
     @Override
-    public List<Schedule> findAll(int offset, int limit){
-        return em.createQuery(
-            "select s from Schedule s" +
-            " join fetch s.workspace w", Schedule.class)
-            .setFirstResult(offset)
-            .setMaxResults(limit)
-            .getResultList();
+    public List<Schedule> findAll(int offset, int limit, User user){
+        return qf.selectFrom(schedule)
+            .join(schedule.workspace, workspace).fetchJoin()
+            .join(schedule.userSchedules, userSchedule)
+            .where(userEq(user))
+            .fetch();
     }
     
     @Override
@@ -49,5 +60,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
             .setFirstResult(offset)
             .setMaxResults(limit)
             .getResultList();
+    }
+    
+    private BooleanExpression userEq(User user){
+        if (user == null){
+            return null;
+        }
+        return userSchedule.user.eq(user);
     }
 }

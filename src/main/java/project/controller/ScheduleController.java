@@ -1,6 +1,7 @@
 package project.controller;
 
 import project.domain.*;
+import project.dto.schedule.*;
 import project.service.ScheduleService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
+import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 
 @RestController
@@ -18,67 +20,54 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     
     @GetMapping("/schedules")
-    public Response findAllSchedule(@RequestParam(value = "offset", defaultValue = "0") int offset,
-                                  @RequestParam(value = "limit", defaultValue = "100") int limit,
-                                 @RequestParam(value = "workspace", required = false) String workspaceName ){
-        
-        List<Schedule> findSchedules = scheduleService.findSchedules(offset, limit, workspaceName);
-        
-        // if (workspaceName == null){
-        //     findSchedules = scheduleService.findAll(offset, limit);
-        // }
-        // else{
-        //     findSchedules = scheduleService.findByWorkspaceName(offset, limit, workspaceName);
-        // }
+    public ResponseEntity<FindAllScheduleResponse> findAllSchedule(
+        @RequestParam(value = "offset", defaultValue = "0") int offset,
+        @RequestParam(value = "limit", defaultValue = "100") int limit,
+        @RequestParam(value = "accountId", required = false) String accountId){
             
-        List<ScheduleDto> collect = findSchedules.stream()
-            .map(schedule -> new ScheduleDto(schedule.getId(), schedule.getWorkspace(), schedule.getName(), schedule.getUserSchedules()))
-            .collect(Collectors.toList());
+        List<ScheduleDto> responseData = scheduleService.findSchedules(offset, limit, accountId).stream()
+            .map(ScheduleDto::new) 
+            .collect(toList());
         
-        return new Response(0,"",collect);
+        FindAllScheduleResponse response = new FindAllScheduleResponse(responseData.size(),responseData);
+        
+        return ResponseEntity.ok(response);
     }
     
     @PostMapping("/schedules")
-    public Response registerUser(@RequestBody CreateSchedulesRequest request){
-        Long scheduleId = scheduleService.createSchedule(
-            request.getWorkspace(),
-            request.getName(),
-            request.getStartDate(),
-            request.getEndDate(),
-            request.getUsers()
-        );
-        return new Response(0,"",scheduleId);
-    }
-    
-    @Getter
-    @AllArgsConstructor
-    static class CreateSchedulesRequest{
-        private String workspace;
-        private String name;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
-        private List<String> users;
-    }
-    
-    @Getter
-    @AllArgsConstructor
-    static class ScheduleDto{
-        private Long schedule_id;
-        private String workspace;
-        private String name;
-        private List<String> users = new ArrayList <> ();
+    public ResponseEntity<Long> registerUser(@RequestBody CreateScheduleRequest request){
         
-        public ScheduleDto(Long id, Workspace workspace, String name, List<UserSchedule> userSchedules){
-            this.schedule_id = id;
-            this.workspace = workspace.getName();
-            this.name = name;
-            // this.users = userSchedules.stream()
-            //     .map(userSchedule -> userSchedule.getUser().getName())
-            //     .collect(Collectors.toList());
+        Long scheduleId = scheduleService.createSchedule(request);
+        
+        return ResponseEntity.ok(scheduleId);
+    }
+    
+    @GetMapping("/schedules/{scheduleId}") // join 쿼리 안나감, 수정할까 말까
+    public ResponseEntity<FindSingleScheduleResponse> findSingleSchedule(@PathVariable Long scheduleId){
             
-            for (UserSchedule userSchedule : userSchedules){
-                users.add(userSchedule.getUser().getAccountId());
-            }
-        }
+        Schedule schedule = scheduleService.findOne(scheduleId);
+        
+        FindSingleScheduleResponse response = new FindSingleScheduleResponse(schedule);
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @PutMapping("/schedules/{scheduleId}") // join 쿼리 안나감, 수정할까 말까
+    public ResponseEntity<ScheduleDto> updateSchedule(@PathVariable Long scheduleId,
+                                                    @RequestBody UpdateScheduleRequest request){
+            
+        Schedule schedule = scheduleService.updateSchedule(scheduleId, request);
+        
+        ScheduleDto response = new ScheduleDto(schedule);
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @DeleteMapping("/schedules/{scheduleId}") // join 쿼리 안나감, 수정할까 말까
+    public ResponseEntity<DeleteScheduleResponse> deleteSchedule(@PathVariable Long scheduleId){
+            
+        scheduleService.removeSchedule(scheduleId);
+        
+        return ResponseEntity.ok(new DeleteScheduleResponse());
     }
 }

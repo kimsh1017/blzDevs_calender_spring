@@ -3,6 +3,7 @@ package project.domain;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "user_schedule")
 @Getter @Setter
+@NoArgsConstructor
 public class UserSchedule{
     
     @Id @GeneratedValue
@@ -23,4 +25,8 @@ public class UserSchedule{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    
+    public UserSchedule(User user){
+        this.user = user;
+    }
 }

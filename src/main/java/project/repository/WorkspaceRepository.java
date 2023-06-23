@@ -2,6 +2,7 @@ package project.repository;
 
 import project.domain.*;
 import java.util.List;
+import java.util.Optional;
 
 public interface WorkspaceRepository{
     
@@ -13,7 +14,7 @@ public interface WorkspaceRepository{
     
     public List<Workspace> findAll(int offset, int limit);
     
-    public List<Workspace> findByName(String name);
+    public Optional<Workspace> findByName(String name);
     
     public List<Workspace> findByUserAccountId(String accountId);
 }

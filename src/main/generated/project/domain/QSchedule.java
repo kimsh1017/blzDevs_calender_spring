@@ -22,6 +22,8 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public static final QSchedule schedule = new QSchedule("schedule");
 
+    public final ListPath<DevLog, QDevLog> devLogs = this.<DevLog, QDevLog>createList("devLogs", DevLog.class, QDevLog.class, PathInits.DIRECT2);
+
     public final DateTimePath<java.time.LocalDateTime> endDate = createDateTime("endDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);

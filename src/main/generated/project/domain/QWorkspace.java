@@ -24,6 +24,8 @@ public class QWorkspace extends EntityPathBase<Workspace> {
 
     public final StringPath name = createString("name");
 
+    public final ListPath<Schedule, QSchedule> schedules = this.<Schedule, QSchedule>createList("schedules", Schedule.class, QSchedule.class, PathInits.DIRECT2);
+
     public final ListPath<UserWorkspace, QUserWorkspace> userWorkspaces = this.<UserWorkspace, QUserWorkspace>createList("userWorkspaces", UserWorkspace.class, QUserWorkspace.class, PathInits.DIRECT2);
 
     public QWorkspace(String variable) {
