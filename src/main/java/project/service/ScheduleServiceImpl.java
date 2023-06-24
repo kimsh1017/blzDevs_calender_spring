@@ -48,12 +48,13 @@ public class ScheduleServiceImpl implements ScheduleService{
         
         String name = request.getName();    
         // 중간 테이블 만들기
-        List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
-            .stream()
-            .map(UserSchedule::new)
-            .collect(toList());
+        // List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
+        //     .stream()
+        //     .map(UserSchedule::new)
+        //     .collect(toList());
+        List <User> users = userRepository.findUsersByAccounIdList(request.getUsers());
         
-        Schedule schedule = new Schedule(workspace, name, userSchedules);
+        Schedule schedule = new Schedule(workspace, name, users);
         scheduleRepository.save(schedule);
         return schedule.getId();
     }
@@ -65,12 +66,13 @@ public class ScheduleServiceImpl implements ScheduleService{
         
         String name = request.getName();
         
-        List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
-            .stream()
-            .map(UserSchedule::new)
-            .collect(toList());
+        // List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
+        //     .stream()
+        //     .map(UserSchedule::new)
+        //     .collect(toList());
+        List <User> users = userRepository.findUsersByAccounIdList(request.getUsers());
         
-        schedule.update(name,userSchedules);
+        schedule.update(name,users);
         
         return schedule;
     }
@@ -82,6 +84,30 @@ public class ScheduleServiceImpl implements ScheduleService{
         scheduleRepository.remove(schedule);
     }
     
+    @Override
+    @Transactional
+    public Schedule addUser(Long scheduleId, String accountId){
+        Schedule schedule = scheduleRepository.findOne(scheduleId);
+        //유저 중복 검증해야함
+        User user = validateUser(accountId);
+        
+        schedule.addUser(user);
+        
+        return schedule;
+    }
+    
+    @Override
+    @Transactional
+    public Schedule removeUser(Long scheduleId, Long userId){
+        Schedule schedule = scheduleRepository.findOne(scheduleId);
+        //유저 중복 검증해야함
+        User user = userRepository.findOne(userId);
+        
+        schedule.removeUser(user);
+        
+        return schedule;
+    }
+    
     private User validateUser(String accountId){
         if (accountId == null){
             return null;
@@ -89,4 +115,5 @@ public class ScheduleServiceImpl implements ScheduleService{
         return userRepository.findOneOptional(accountId)
                 .orElseThrow(NoSuchUserException::new);
     }
+    
 }

@@ -34,32 +34,44 @@ public class Schedule{
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DevLog> devLogs = new ArrayList <> ();
     
-    // < == 연관관계 설정 메소드 == >
-    public void addUserSchedule(UserSchedule userSchedule){
-        this.userSchedules.add(userSchedule);
-        userSchedule.setSchedule(this);
-    }
     
     // 생성자
-    public Schedule(Workspace workspace, String name, List<UserSchedule> userSchedules){
+    public Schedule(Workspace workspace, String name, List<User> users){
         this.workspace = workspace;
         this.name = name;
-        this.userSchedules.addAll(userSchedules);
         
-        for (UserSchedule userSchedule : userSchedules){
-            userSchedule.setSchedule(this);
+        for (User user : users){
+            this.addUser(user);
         }
+    }
+    
+    
+    // < == 비즈니스 로직 == >
+    public void addUser(User user){
+        if (this.userSchedules.stream().filter(us -> us.getUser().equals(user)).count() != 0){
+            throw new IllegalStateException("이미 존재하는 user 입니다");
+        }
+        
+        UserSchedule userSchedule = new UserSchedule(user,this);
+        
+        this.userSchedules.add(userSchedule);
+    }
+    
+    public void removeUser(User user){
+        if (this.userSchedules.stream().filter(us -> us.getUser().equals(user)).count() == 0){
+            throw new IllegalStateException("존재하지 않는 user 입니다");
+        }
+        
+        this.userSchedules.removeIf(userSchedule -> userSchedule.getUser().equals(user));
     }
     
     //수정 메소드
-    public void update(String name, List<UserSchedule> userSchedules){
+    public void update(String name, List<User> users){
         this.name = name;
         this.userSchedules.clear();
-        this.userSchedules.addAll(userSchedules);
         
-        for (UserSchedule userSchedule : userSchedules){
-            userSchedule.setSchedule(this);
+        for (User user : users){
+            this.addUser(user);
         }
-        
     }
 }

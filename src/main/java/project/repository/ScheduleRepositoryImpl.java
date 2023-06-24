@@ -43,10 +43,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     
     @Override
     public List<Schedule> findAll(int offset, int limit, User user){
+        // 메모리 문제 가능..?
         return qf.selectFrom(schedule)
             .join(schedule.workspace, workspace).fetchJoin()
             .join(schedule.userSchedules, userSchedule)
             .where(userEq(user))
+            .distinct()
             .fetch();
     }
     

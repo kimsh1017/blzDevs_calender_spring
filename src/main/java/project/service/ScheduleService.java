@@ -18,4 +18,8 @@ public interface ScheduleService{
     public Schedule updateSchedule(Long scheduleId, UpdateScheduleRequest request);
     
     public void removeSchedule(Long id);
+    
+    public Schedule addUser(Long scheduleId, String accountId);
+    
+    public Schedule removeUser(Long scheduleId, Long userId);
 }

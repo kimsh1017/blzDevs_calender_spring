@@ -24,6 +24,8 @@ project/service/WorkspaceService.java
  project.service.WorkspaceService
 project/dto/user/DeleteUserResponse.java
  project.dto.user.DeleteUserResponse
+project/dto/schedule/DeleteScheduleUserResponse.java
+ project.dto.schedule.DeleteScheduleUserResponse
 project/repository/UserRepositoryImpl.java
  project.repository.UserRepositoryImpl
 project/controller/UserController.java
@@ -92,12 +94,16 @@ project/service/ScheduleServiceImpl.java
  project.service.ScheduleServiceImpl
 project/Application.java
  project.Application
+project/dto/schedule/FindScheduleUsersResponse.java
+ project.dto.schedule.FindScheduleUsersResponse
+ project.dto.schedule.FindScheduleUsersResponse$SimpleUserDto
 project/repository/ScheduleRepository.java
  project.repository.ScheduleRepository
 project/dto/devLog/DeleteDevLogResponse.java
  project.dto.devLog.DeleteDevLogResponse
 project/controller/ScheduleController.java
  project.controller.ScheduleController
+ project.controller.ScheduleController$addUserReqeust
 project/service/ScheduleService.java
  project.service.ScheduleService
 project/service/UserServiceImpl.java
