@@ -26,22 +26,41 @@ public class Workspace{
     @OneToMany(mappedBy="workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
     
-    public Workspace(String name, List<UserWorkspace> userWorkspaces){
+    public Workspace(String name, List<User> users){
         this.name = name;
-        this.userWorkspaces.addAll(userWorkspaces);
         
-        for (UserWorkspace userWorkspace : userWorkspaces){
-            userWorkspace.setWorkspace(this);
+        for(User user : users){
+            this.addUser(user);
         }
     }
+    
+    // <== 비즈니스 로직 == > //
+    
+    public void addUser(User user){
+        if (this.userWorkspaces.stream().filter(us -> us.getUser().equals(user)).count() != 0){
+            throw new IllegalStateException("이미 존재하는 user 입니다");
+        }
+        
+        UserWorkspace userWorkspace = new UserWorkspace(user,this);
+        
+        this.userWorkspaces.add(userWorkspace);
+    }
+    
+    public void removeUser(User user){
+        if (this.userWorkspaces.stream().filter(us -> us.getUser().equals(user)).count() == 0){
+            throw new IllegalStateException("존재하지 않는 user 입니다");
+        }
+        
+        this.userWorkspaces.removeIf(userWorkspace -> userWorkspace.getUser().equals(user));
+    }
+    
     // 수정 로직
-    public void updateWorkspace(String name, List<UserWorkspace> userWorkspaces){
+    public void updateWorkspace(String name, List<User> users){
         this.name = name;
         this.userWorkspaces.clear();
-        this.userWorkspaces.addAll(userWorkspaces);
         
-        for (UserWorkspace userWorkspace : userWorkspaces){
-            userWorkspace.setWorkspace(this);
+        for(User user : users){
+            this.addUser(user);
         }
     }
 }

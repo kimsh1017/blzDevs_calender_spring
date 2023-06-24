@@ -84,7 +84,7 @@ public class ScheduleController {
     @PostMapping("/schedules/{scheduleId}/users") // join 쿼리 안나감, 수정할까 말까
     public ResponseEntity<Long> addScheduleUsers(
                                                         @PathVariable Long scheduleId,
-                                                        @RequestBody addUserReqeust request){
+                                                        @RequestBody AddUserReqeust request){
             
         Schedule schedule = scheduleService.addUser(scheduleId,request.getAccountId());
         
@@ -98,7 +98,7 @@ public class ScheduleController {
                                                         @PathVariable Long scheduleId,
                                                         @PathVariable Long userId){
             
-        Schedule schedule = scheduleService.removeUser(scheduleId, userId);
+        scheduleService.removeUser(scheduleId, userId);
         
         DeleteScheduleUserResponse response = new DeleteScheduleUserResponse();
         
@@ -106,7 +106,7 @@ public class ScheduleController {
     }
     
     @Getter
-    static class addUserReqeust{
+    static class AddUserReqeust{
         private String accountId;
     }
 }

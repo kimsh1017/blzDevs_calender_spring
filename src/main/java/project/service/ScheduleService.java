@@ -21,5 +21,5 @@ public interface ScheduleService{
     
     public Schedule addUser(Long scheduleId, String accountId);
     
-    public Schedule removeUser(Long scheduleId, Long userId);
+    public void removeUser(Long scheduleId, Long userId);
 }

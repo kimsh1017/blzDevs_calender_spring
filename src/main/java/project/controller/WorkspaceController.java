@@ -69,6 +69,43 @@ public class WorkspaceController{
         return ResponseEntity.ok(new DeleteWorkspaceResponse());
     }
     
+    @GetMapping("/workspaces/{workspaceId}/users")
+    public ResponseEntity<FindWorkspaceUsersResponse> findUsers(@PathVariable Long workspaceId){
+        
+        Workspace workspace = workspaceService.findOne(workspaceId);
+        
+        FindWorkspaceUsersResponse response = new FindWorkspaceUsersResponse(workspace);
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/workspaces/{workspaceId}/users")
+    public ResponseEntity<Long> addUser(@PathVariable Long workspaceId,
+                                        @RequestBody AddUserRequest request){
+        
+        Workspace workspace = workspaceService.addUser(workspaceId, request.getAccountId());
+        
+        Long responseId = workspace.getId();
+        
+        return ResponseEntity.ok(responseId);
+    }
+    
+    @DeleteMapping("/workspaces/{workspaceId}/users/{userId}")
+    public ResponseEntity<RemoveUserResponse> removeUser(@PathVariable Long workspaceId,
+                                                        @PathVariable Long userId){
+        
+        workspaceService.removeUser(workspaceId, userId);
+        
+        RemoveUserResponse response = new RemoveUserResponse();
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @Getter
+    static class AddUserRequest{
+        private String accountId;
+    }
+    
     // 나중에 유저에 역할 부여 가능
                  
     // @Getter

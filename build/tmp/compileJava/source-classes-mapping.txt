@@ -1,5 +1,8 @@
 project/domain/QUserWorkspace.java
  project.domain.QUserWorkspace
+project/dto/workspace/FindWorkspaceUsersResponse.java
+ project.dto.workspace.FindWorkspaceUsersResponse
+ project.dto.workspace.FindWorkspaceUsersResponse$SimpleUserDto
 project/dto/schedule/CreateScheduleRequest.java
  project.dto.schedule.CreateScheduleRequest
 project/domain/DevLog.java
@@ -18,6 +21,7 @@ project/exception/devLog/NoSuchUserException.java
  project.exception.devLog.NoSuchUserException
 project/controller/WorkspaceController.java
  project.controller.WorkspaceController
+ project.controller.WorkspaceController$AddUserRequest
 project/domain/User.java
  project.domain.User
 project/service/WorkspaceService.java
@@ -30,6 +34,8 @@ project/repository/UserRepositoryImpl.java
  project.repository.UserRepositoryImpl
 project/controller/UserController.java
  project.controller.UserController
+project/dto/workspace/RemoveUserResponse.java
+ project.dto.workspace.RemoveUserResponse
 project/dto/devLog/DevLogFindAllResponse.java
  project.dto.devLog.DevLogFindAllResponse
 project/exception/user/UserAlreadyExistException.java
@@ -40,8 +46,6 @@ project/domain/QDevLog.java
  project.domain.QDevLog
 project/dto/user/UpdateUserRequest.java
  project.dto.user.UpdateUserRequest
-project/controller/Response.java
- project.controller.Response
 project/domain/QWorkspace.java
  project.domain.QWorkspace
 project/repository/WorkspaceRepository.java
@@ -103,7 +107,7 @@ project/dto/devLog/DeleteDevLogResponse.java
  project.dto.devLog.DeleteDevLogResponse
 project/controller/ScheduleController.java
  project.controller.ScheduleController
- project.controller.ScheduleController$addUserReqeust
+ project.controller.ScheduleController$AddUserReqeust
 project/service/ScheduleService.java
  project.service.ScheduleService
 project/service/UserServiceImpl.java

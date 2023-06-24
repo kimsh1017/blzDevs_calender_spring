@@ -19,4 +19,8 @@ public interface WorkspaceService{
     public List<Workspace> findByUserAccountId(String accountId);
     
     public Workspace updateWorkspace(Long id, CreateWorkspaceRequest request);
+    
+    public Workspace addUser(Long workspaceId, String userAccountId);
+    
+    public void removeUser(Long workspaceId, Long userId);
 }

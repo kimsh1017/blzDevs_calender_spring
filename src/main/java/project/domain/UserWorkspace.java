@@ -26,8 +26,9 @@ public class UserWorkspace{
     @JoinColumn(name = "user_id")
     private User user;
     
-    public UserWorkspace(User user){
+    public UserWorkspace(User user, Workspace workspace){
         this.user = user;
+        this.workspace = workspace;
     }
     
     //AccounrId Field 추가하기

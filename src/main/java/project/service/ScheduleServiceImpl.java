@@ -98,14 +98,12 @@ public class ScheduleServiceImpl implements ScheduleService{
     
     @Override
     @Transactional
-    public Schedule removeUser(Long scheduleId, Long userId){
+    public void removeUser(Long scheduleId, Long userId){
         Schedule schedule = scheduleRepository.findOne(scheduleId);
         //유저 중복 검증해야함
         User user = userRepository.findOne(userId);
         
         schedule.removeUser(user);
-        
-        return schedule;
     }
     
     private User validateUser(String accountId){

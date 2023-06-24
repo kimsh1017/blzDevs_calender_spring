@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 import static java.util.stream.Collectors.toList;
+import project.exception.devLog.NoSuchUserException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,14 +29,10 @@ public class WorkspaceServiceImpl implements WorkspaceService{
         //중복 이름 검증
         validateWorkspace(name);
         
-        // 중간 테이블 만들기
-        List<UserWorkspace> userWorkspaces = userRepository.findUsersByAccounIdList(request.getUsers())
-            .stream()
-            .map(UserWorkspace::new)
-            .collect(toList());
+        List<User> users = userRepository.findUsersByAccounIdList(request.getUsers());
         
         //Workspace 생성
-        Workspace workspace = new Workspace(name, userWorkspaces);
+        Workspace workspace = new Workspace(name, users);
         workspaceRepository.save(workspace);
         return workspace.getId();
     }
@@ -73,13 +70,30 @@ public class WorkspaceServiceImpl implements WorkspaceService{
             validateWorkspace(name);
         }
         
-        List<UserWorkspace> userWorkspaces = userRepository.findUsersByAccounIdList(request.getUsers())
-            .stream()
-            .map(UserWorkspace::new)
-            .collect(toList());
+        List<User> users = userRepository.findUsersByAccounIdList(request.getUsers());
         
-        workspace.updateWorkspace(name, userWorkspaces);
+        workspace.updateWorkspace(name, users);
         return workspace;
+    }
+    
+    @Override
+    @Transactional
+    public Workspace addUser(Long workspaceId, String userAccountId){
+        Workspace workspace = workspaceRepository.findOne(workspaceId);
+        User user = userRepository.findOneOptional(userAccountId)
+            .orElseThrow(NoSuchUserException::new);
+        
+        workspace.addUser(user);
+        return workspace;
+    }
+    
+    @Override
+    @Transactional
+    public void removeUser(Long workspaceId, Long userId){
+        Workspace workspace = workspaceRepository.findOne(workspaceId);
+        User user = userRepository.findOne(userId);
+        
+        workspace.removeUser(user);
     }
     
     //bool 형으로 바꿔서 검증 함수 만들면 재사용성 더 좋을듯
