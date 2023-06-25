@@ -12,15 +12,19 @@ public class FindSingleUserResponse {
     private String accountId;
     private String name;
     private List<String> workspaces;
-    // private List<Long> schedules;
+    private List<String> schedules;
     // private List<Long> devLogs;
         
     public FindSingleUserResponse(User user){
-        accountId = user.getAccountId();
-        name = user.getName();
+        this.accountId = user.getAccountId();
+        this.name = user.getName();
             
-        workspaces = user.getUserWorkspaces().stream()
+        this.workspaces = user.getUserWorkspaces().stream()
             .map(userWorkspace -> userWorkspace.getWorkspace().getName())
+            .collect(toList());
+        
+        this.schedules = user.getUserSchedules().stream()
+            .map(userSchedule -> userSchedule.getSchedule().getName())
             .collect(toList());
     }
 }

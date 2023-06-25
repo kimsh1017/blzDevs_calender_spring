@@ -3,7 +3,8 @@ package project.service;
 import project.domain.*;
 import project.dto.schedule.*;
 import project.exception.schedule.*;
-import project.exception.devLog.NoSuchUserException;
+import project.exception.user.*;
+import project.exception.workspace.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -47,11 +48,7 @@ public class ScheduleServiceImpl implements ScheduleService{
             .orElseThrow(NoSuchWorkspaceException::new);
         
         String name = request.getName();    
-        // 중간 테이블 만들기
-        // List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
-        //     .stream()
-        //     .map(UserSchedule::new)
-        //     .collect(toList());
+
         List <User> users = userRepository.findUsersByAccounIdList(request.getUsers());
         
         Schedule schedule = new Schedule(workspace, name, users);
@@ -66,10 +63,6 @@ public class ScheduleServiceImpl implements ScheduleService{
         
         String name = request.getName();
         
-        // List<UserSchedule> userSchedules = userRepository.findUsersByAccounIdList(request.getUsers())
-        //     .stream()
-        //     .map(UserSchedule::new)
-        //     .collect(toList());
         List <User> users = userRepository.findUsersByAccounIdList(request.getUsers());
         
         schedule.update(name,users);

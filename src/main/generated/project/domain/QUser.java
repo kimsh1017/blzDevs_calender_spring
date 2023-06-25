@@ -28,6 +28,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath password = createString("password");
 
+    public final ListPath<UserSchedule, QUserSchedule> userSchedules = this.<UserSchedule, QUserSchedule>createList("userSchedules", UserSchedule.class, QUserSchedule.class, PathInits.DIRECT2);
+
     public final ListPath<UserWorkspace, QUserWorkspace> userWorkspaces = this.<UserWorkspace, QUserWorkspace>createList("userWorkspaces", UserWorkspace.class, QUserWorkspace.class, PathInits.DIRECT2);
 
     public QUser(String variable) {

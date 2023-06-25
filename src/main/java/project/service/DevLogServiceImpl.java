@@ -2,7 +2,8 @@ package project.service;
 
 import project.domain.*;
 import project.dto.devLog.*;
-import project.exception.devLog.*;
+import project.exception.user.*;
+import project.exception.schedule.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;

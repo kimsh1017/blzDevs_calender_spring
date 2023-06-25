@@ -23,8 +23,11 @@ public class User{
     
     private String name;
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserWorkspace> userWorkspaces = new ArrayList<> ();
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserSchedule> userSchedules = new ArrayList<>();
     
     public User(String accountId, String password, String name){
         this.accountId = accountId;

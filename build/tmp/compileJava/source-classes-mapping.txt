@@ -15,10 +15,10 @@ project/repository/DevLogRepository.java
  project.repository.DevLogRepository
 project/repository/UserRepository.java
  project.repository.UserRepository
+project/exception/user/NoSuchUserException.java
+ project.exception.user.NoSuchUserException
 project/dto/schedule/DeleteScheduleResponse.java
  project.dto.schedule.DeleteScheduleResponse
-project/exception/devLog/NoSuchUserException.java
- project.exception.devLog.NoSuchUserException
 project/controller/WorkspaceController.java
  project.controller.WorkspaceController
  project.controller.WorkspaceController$AddUserRequest
@@ -59,6 +59,8 @@ project/dto/schedule/ScheduleDto.java
  project.dto.schedule.ScheduleDto
 project/dto/workspace/WorkspaceDto.java
  project.dto.workspace.WorkspaceDto
+project/exception/schedule/NoSuchScheduleException.java
+ project.exception.schedule.NoSuchScheduleException
 project/domain/Schedule.java
  project.domain.Schedule
 project/repository/WorkspaceRepositoryImpl.java
@@ -92,8 +94,8 @@ project/dto/workspace/CreateWorkspaceRequest.java
  project.dto.workspace.CreateWorkspaceRequest
 project/dto/workspace/DeleteWorkspaceResponse.java
  project.dto.workspace.DeleteWorkspaceResponse
-project/exception/devLog/NoSuchScheduleException.java
- project.exception.devLog.NoSuchScheduleException
+project/exception/workspace/NoSuchWorkspaceException.java
+ project.exception.workspace.NoSuchWorkspaceException
 project/service/ScheduleServiceImpl.java
  project.service.ScheduleServiceImpl
 project/Application.java
@@ -128,7 +130,5 @@ project/domain/UserSchedule.java
  project.domain.UserSchedule
 project/dto/devLog/DevLogDto.java
  project.dto.devLog.DevLogDto
-project/exception/schedule/NoSuchWorkspaceException.java
- project.exception.schedule.NoSuchWorkspaceException
 project/controller/DevLogController.java
  project.controller.DevLogController

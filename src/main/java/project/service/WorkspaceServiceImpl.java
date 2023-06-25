@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 import static java.util.stream.Collectors.toList;
-import project.exception.devLog.NoSuchUserException;
+import project.exception.user.NoSuchUserException;
 
 @Service
 @RequiredArgsConstructor
