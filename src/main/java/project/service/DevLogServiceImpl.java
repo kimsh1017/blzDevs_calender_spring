@@ -31,7 +31,7 @@ public class DevLogServiceImpl implements DevLogService{
         Schedule schedule = scheduleRepository.findOneOptional(createDevLogRequest.getScheduleId())
             .orElseThrow(NoSuchScheduleException::new);
         
-        User user = userRepository.findOneOptional(createDevLogRequest.getUserAccountId())
+        User user = userRepository.findByAccountId(createDevLogRequest.getUserAccountId())
             .orElseThrow(NoSuchUserException::new);
         
         String content = createDevLogRequest.getContent();
@@ -99,7 +99,7 @@ public class DevLogServiceImpl implements DevLogService{
         if (accountId == null){
             return null;
         }
-        return userRepository.findOneOptional(accountId)
+        return userRepository.findByAccountId(accountId)
                 .orElseThrow(NoSuchUserException::new);
     }
 }

@@ -13,8 +13,11 @@
 // import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 // import org.springframework.test.web.servlet.MockMvc;
 // import org.springframework.boot.test.mock.mockito.MockBean;
+// import project.domain.*;
 // import project.service.DevLogService;
 // import project.repository.DevLogRepository;
+// import java.util.List;  
+// import java.util.ArrayList;
 
 // @RunWith(SpringRunner.class)
 // @WebMvcTest(DevLogController.class)
@@ -32,10 +35,21 @@
 //     @Test
 //     void getAllDevLogTest() throws Exception {
 //         //given
+//         User user = new User("test1","pw1234","test1Kim");
+        
+//         List<User> userList = new ArrayList<> ();
+//         userList.add(user);
+        
+//         Workspace workspace = new Workspace("testWorkspace",userList);
+//         Schedule schedule = new Schedule(workspace,"testSchedule",userList);
+//         DevLog devLog = new DevLog(schedule, user, "testDevLog");
+        
+//         devLogRepository.save(devLog);
 //         //when
+        
 //         //then
 //         mvc.perform(get("/devLogs"))
 //             .andExpect(status().isOk())
-//             // .andExpect(jsonPath("$.data[0].scheduleId").value("12"));
+//             .andExpect(jsonPath("$.count").value("1"));
 //     }
 // }

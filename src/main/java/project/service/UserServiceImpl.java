@@ -32,10 +32,13 @@ public class UserServiceImpl implements UserService{
     //유저 단건 조회
     @Override
     public User findOne(Long id){
-        //없는 아이디 아닌지 검증해봐야함 -> springData 사용하자
-        return userRepository.findOne(id);
+        User findUser = userRepository.findById(id)
+            .orElseThrow(NoSuchUserException::new);
+        
+        return findUser;
     }
     
+    //유저 리스트 조회
     @Override
     public List<User> findAllBySearch(int offset, int limit, String accountId, String name){
         return userRepository.searchUsers(offset,limit,accountId,name);
@@ -45,7 +48,9 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User updateUser(Long id, String password, String name){
-        User user = userRepository.findOne(id);
+        User user = userRepository.findById(id)
+            .orElseThrow(NoSuchUserException::new);
+        
         user.update(password,name);
         return user;
     }
@@ -54,17 +59,13 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void deleteUser(Long id){
-        
-        User user = userRepository.findOne(id);
-        
-        userRepository.remove(user);
+        userRepository.deleteById(id);
     }
     
     // < == validate logic ==> //
     private void validateUserAccountId(String accountId){
-        Optional<User> findUser = userRepository.findOneOptional(accountId);
         
-        if (!findUser.isEmpty()){
+        if (userRepository.existsByAccountId(accountId)){
             throw new UserAlreadyExistException();
         }
     }

@@ -42,12 +42,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     }
     
     @Override
-    public List<Schedule> findAll(int offset, int limit, User user){
+    public List<Schedule> findAll(int offset, int limit, String accountId){
         // 메모리 문제 가능..?
         return qf.selectFrom(schedule)
             .join(schedule.workspace, workspace).fetchJoin()
             .join(schedule.userSchedules, userSchedule)
-            .where(userEq(user))
+            .where(userEq(accountId))
             .distinct()
             .fetch();
     }
@@ -64,10 +64,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
             .getResultList();
     }
     
-    private BooleanExpression userEq(User user){
-        if (user == null){
+    private BooleanExpression userEq(String accountId){
+        //StringUtils.hasText()?
+        if (accountId == null){
             return null;
         }
-        return userSchedule.user.eq(user);
+        return userSchedule.user.accountId.eq(accountId);
     }
 }

@@ -30,8 +30,6 @@ project/dto/user/DeleteUserResponse.java
  project.dto.user.DeleteUserResponse
 project/dto/schedule/DeleteScheduleUserResponse.java
  project.dto.schedule.DeleteScheduleUserResponse
-project/repository/UserRepositoryImpl.java
- project.repository.UserRepositoryImpl
 project/controller/UserController.java
  project.controller.UserController
 project/dto/workspace/RemoveUserResponse.java
@@ -53,6 +51,8 @@ project/repository/WorkspaceRepository.java
 project/dto/schedule/FindSingleScheduleResponse.java
  project.dto.schedule.FindSingleScheduleResponse
  project.dto.schedule.FindSingleScheduleResponse$SimpleDevLogDto
+project/repository/UserRepositoryCustomImpl.java
+ project.repository.UserRepositoryCustomImpl
 project/service/WorkspaceServiceImpl.java
  project.service.WorkspaceServiceImpl
 project/dto/schedule/ScheduleDto.java
@@ -67,6 +67,8 @@ project/repository/WorkspaceRepositoryImpl.java
  project.repository.WorkspaceRepositoryImpl
 project/domain/UserWorkspace.java
  project.domain.UserWorkspace
+project/repository/UserRepositoryCustom.java
+ project.repository.UserRepositoryCustom
 project/domain/QUser.java
  project.domain.QUser
 project/service/DevLogServiceImpl.java

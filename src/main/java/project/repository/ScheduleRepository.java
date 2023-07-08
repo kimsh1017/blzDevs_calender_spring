@@ -14,7 +14,7 @@ public interface ScheduleRepository{
     
     public Optional<Schedule> findOneOptional (Long id);
     
-    public List<Schedule> findAll(int offset, int limit, User user);
+    public List<Schedule> findAll(int offset, int limit, String accountId);
     
     public List<Schedule> findByWorkspaceName(int offset, int limit, String workspaceName);
 }

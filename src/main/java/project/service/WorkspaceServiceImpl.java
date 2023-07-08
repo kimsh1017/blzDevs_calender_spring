@@ -80,7 +80,8 @@ public class WorkspaceServiceImpl implements WorkspaceService{
     @Transactional
     public Workspace addUser(Long workspaceId, String userAccountId){
         Workspace workspace = workspaceRepository.findOne(workspaceId);
-        User user = userRepository.findOneOptional(userAccountId)
+        
+        User user = userRepository.findByAccountId(userAccountId)
             .orElseThrow(NoSuchUserException::new);
         
         workspace.addUser(user);
@@ -91,7 +92,8 @@ public class WorkspaceServiceImpl implements WorkspaceService{
     @Transactional
     public void removeUser(Long workspaceId, Long userId){
         Workspace workspace = workspaceRepository.findOne(workspaceId);
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId)
+            .orElseThrow(NoSuchUserException::new);
         
         workspace.removeUser(user);
     }

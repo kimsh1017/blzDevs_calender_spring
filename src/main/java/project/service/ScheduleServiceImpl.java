@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 import project.repository.ScheduleRepository;
 import project.repository.UserRepository;
@@ -33,11 +34,12 @@ public class ScheduleServiceImpl implements ScheduleService{
     
     @Override
     @Transactional(readOnly = true)
-    public List<Schedule> findSchedules(int offset, int limit,String accountId){
+    public List<Schedule> findSchedules(int offset, int limit, String accountId){
         
-        User user = validateUser(accountId);
+        //여기서 문제 발생
+        // Optional<User> user = userRepository.findByAccountId(accountId);
         
-        return scheduleRepository.findAll(offset, limit, user);
+        return scheduleRepository.findAll(offset, limit, accountId);
     }
     
     @Override
@@ -82,8 +84,10 @@ public class ScheduleServiceImpl implements ScheduleService{
     public Schedule addUser(Long scheduleId, String accountId){
         Schedule schedule = scheduleRepository.findOne(scheduleId);
         //유저 중복 검증해야함
-        User user = validateUser(accountId);
+        User user = userRepository.findByAccountId(accountId)
+            .orElseThrow(NoSuchUserException::new);
         
+        //이미 스케줄에 있는 유저인지 확인하는 로직 필요함
         schedule.addUser(user);
         
         return schedule;
@@ -94,17 +98,9 @@ public class ScheduleServiceImpl implements ScheduleService{
     public void removeUser(Long scheduleId, Long userId){
         Schedule schedule = scheduleRepository.findOne(scheduleId);
         //유저 중복 검증해야함
-        User user = userRepository.findOne(userId);
+        User user = userRepository.findById(userId)
+            .orElseThrow(NoSuchUserException::new);
         
         schedule.removeUser(user);
     }
-    
-    private User validateUser(String accountId){
-        if (accountId == null){
-            return null;
-        }
-        return userRepository.findOneOptional(accountId)
-                .orElseThrow(NoSuchUserException::new);
-    }
-    
 }
