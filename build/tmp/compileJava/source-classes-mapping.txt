@@ -51,6 +51,8 @@ project/repository/WorkspaceRepository.java
 project/dto/schedule/FindSingleScheduleResponse.java
  project.dto.schedule.FindSingleScheduleResponse
  project.dto.schedule.FindSingleScheduleResponse$SimpleDevLogDto
+project/exception/devLog/NoSuchDevLogException.java
+ project.exception.devLog.NoSuchDevLogException
 project/repository/UserRepositoryCustomImpl.java
  project.repository.UserRepositoryCustomImpl
 project/service/WorkspaceServiceImpl.java
@@ -79,8 +81,6 @@ project/dto/user/FindAllUserResponse.java
  project.dto.user.FindAllUserResponse
 project/domain/Workspace.java
  project.domain.Workspace
-project/repository/DevLogRepositoryImpl.java
- project.repository.DevLogRepositoryImpl
 project/dto/workspace/FindSingleWorkspaceResponse.java
  project.dto.workspace.FindSingleWorkspaceResponse
  project.dto.workspace.FindSingleWorkspaceResponse$ScheduleSimpleDto
@@ -105,6 +105,8 @@ project/Application.java
 project/dto/schedule/FindScheduleUsersResponse.java
  project.dto.schedule.FindScheduleUsersResponse
  project.dto.schedule.FindScheduleUsersResponse$SimpleUserDto
+project/repository/DevLogRepositoryCustom.java
+ project.repository.DevLogRepositoryCustom
 project/repository/ScheduleRepository.java
  project.repository.ScheduleRepository
 project/dto/devLog/DeleteDevLogResponse.java
@@ -124,6 +126,8 @@ project/dto/user/FindSingleUserResponse.java
  project.dto.user.FindSingleUserResponse
 project/service/DevLogService.java
  project.service.DevLogService
+project/repository/DevLogRepositoryCustomImpl.java
+ project.repository.DevLogRepositoryCustomImpl
 project/domain/QUserSchedule.java
  project.domain.QUserSchedule
 project/dto/schedule/UpdateScheduleRequest.java

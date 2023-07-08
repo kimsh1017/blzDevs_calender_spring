@@ -4,6 +4,7 @@ import project.domain.*;
 import project.dto.devLog.*;
 import project.exception.user.*;
 import project.exception.schedule.*;
+import project.exception.devLog.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,7 @@ public class DevLogServiceImpl implements DevLogService{
                                                 Long scheduleId, 
                                                 String accountId){
         
-        Schedule schedule = validateScheduleId(scheduleId);
+        Schedule schedule = validateScheduleId(scheduleId); //이부분 없으면 오류 띄우는거 맞나? 그냥 [] 보내주면 되는거 아닐까
         User user = validateAccountId(accountId);
             
         return devLogRepository.searchDevLogs(limit, offset, schedule, user);
@@ -59,7 +60,8 @@ public class DevLogServiceImpl implements DevLogService{
     @Override
     @Transactional
     public DevLog updateDevLog(Long devLogId, String content){
-        DevLog findDevLog = devLogRepository.findOne(devLogId);
+        DevLog findDevLog = devLogRepository.findById(devLogId)
+            .orElseThrow(NoSuchDevLogException::new);
         findDevLog.updateContent(content);
         
         return findDevLog;
@@ -68,9 +70,11 @@ public class DevLogServiceImpl implements DevLogService{
     @Override
     @Transactional
     public void deleteDevLog(Long devLogId){
-        DevLog findDevLog = devLogRepository.findOne(devLogId);
         
-        devLogRepository.remove(findDevLog);
+        DevLog findDevLog = devLogRepository.findById(devLogId)
+            .orElseThrow(NoSuchDevLogException::new);
+        
+        devLogRepository.delete(findDevLog);
     }
     
     // < ======== validate logic ======== > //
@@ -80,6 +84,7 @@ public class DevLogServiceImpl implements DevLogService{
         int offset = 0;
         int limit = 100;
         
+        //exists 사용은 어떨까??
         List<DevLog> findDevLog = devLogRepository.searchDevLogs(offset, limit, schedule, user);
 
         if (!findDevLog.isEmpty()){

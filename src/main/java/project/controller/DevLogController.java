@@ -2,6 +2,7 @@ package project.controller;
 
 import project.domain.*;
 import project.dto.devLog.*;
+import project.exception.devLog.*;
 import project.service.DevLogService;
 import project.repository.DevLogRepository;
 import lombok.Getter;
@@ -44,7 +45,8 @@ public class DevLogController {
     
     @GetMapping("/devLogs/{devLogId}")
     public ResponseEntity<DevLogDto> findSingleDevLog(@PathVariable("devLogId") Long devLogId){
-        DevLog devLog = devLogRepository.findOne(devLogId);
+        DevLog devLog = devLogRepository.findById(devLogId)
+            .orElseThrow(NoSuchDevLogException::new);
         
         DevLogDto response = new DevLogDto(devLog);
         

@@ -59,7 +59,10 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void deleteUser(Long id){
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+            .orElseThrow(NoSuchUserException::new);
+        
+        userRepository.delete(user);
     }
     
     // < == validate logic ==> //
