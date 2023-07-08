@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class FindAllUserResponse{
-    private int count;
+    private int totalPages;
+    private int pageNumber;
     private List<UserDto> data;
 }

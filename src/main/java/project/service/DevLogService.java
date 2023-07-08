@@ -5,13 +5,15 @@ import project.domain.*;
 import project.dto.devLog.CreateDevLogRequest;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 public interface DevLogService{
 
     public Long createDevLog(CreateDevLogRequest createDevLogRequest);
     
-    public List<DevLog> findAllBySearch(int offset, int limit, Long scheduleId, String accountId);
+    public Page<DevLog> findAllBySearch(Pageable pageable, Long scheduleId, String accountId);
 
     public DevLog updateDevLog(Long devLogId, String content);
     

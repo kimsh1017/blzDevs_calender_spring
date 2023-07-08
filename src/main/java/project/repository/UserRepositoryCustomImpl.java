@@ -7,6 +7,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import static project.domain.QUser.user;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class UserRepositoryCustomImpl implements UserRepositoryCustom{
@@ -14,11 +17,20 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
     private final JPAQueryFactory qf;
     
     @Override
-    public List<User> searchUsers(int offset, int limit, String accountId, String name){
+    public Page<User> searchUsers(Pageable pageable, String accountId, String name){
         
-        return qf.selectFrom(user)
+        List<User> content =  qf.selectFrom(user)
             .where(accountIdEq(accountId), nameEq(name))
-            .fetch();     
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();  
+        
+        Long count = qf.select(user.count())
+            .from(user)
+            .where(accountIdEq(accountId), nameEq(name))
+            .fetchOne();
+        
+        return new PageImpl<>(content, pageable, count);
     }
     
     // < == eq method == >

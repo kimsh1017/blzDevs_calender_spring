@@ -16,6 +16,8 @@ import project.repository.DevLogRepository;
 import project.repository.UserRepository;
 import project.repository.ScheduleRepository;
 import project.dto.devLog.CreateDevLogRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -46,15 +48,12 @@ public class DevLogServiceImpl implements DevLogService{
     }
     
     @Override
-    public List<DevLog> findAllBySearch(int offset,
-                                                int limit, 
-                                                Long scheduleId, 
-                                                String accountId){
+    public Page<DevLog> findAllBySearch(Pageable pageable, Long scheduleId, String accountId){
         
         Schedule schedule = validateScheduleId(scheduleId); //이부분 없으면 오류 띄우는거 맞나? 그냥 [] 보내주면 되는거 아닐까
         User user = validateAccountId(accountId);
             
-        return devLogRepository.searchDevLogs(limit, offset, schedule, user);
+        return devLogRepository.searchDevLogs(pageable, schedule, user);
     }
     
     @Override
@@ -80,14 +79,7 @@ public class DevLogServiceImpl implements DevLogService{
     // < ======== validate logic ======== > //
     private void validateDevLog(Schedule schedule, User user){
         
-        //검색용 페이징 설정
-        int offset = 0;
-        int limit = 100;
-        
-        //exists 사용은 어떨까??
-        List<DevLog> findDevLog = devLogRepository.searchDevLogs(offset, limit, schedule, user);
-
-        if (!findDevLog.isEmpty()){
+        if (devLogRepository.existsByScheduleAndUser(schedule, user)){
             throw new IllegalStateException("이미 존재하는 DevLog 입니다");
         }
     }

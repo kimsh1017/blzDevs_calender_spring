@@ -16,4 +16,6 @@ public interface DevLogRepository extends JpaRepository<DevLog, Long>, DevLogRep
     // public DevLog findOne(Long id);
         
     // public List<DevLog> searchDevLogs(int offset, int limit, Schedule schedule, User user);
+    
+    public boolean existsByScheduleAndUser(Schedule schedule, User user);
 }

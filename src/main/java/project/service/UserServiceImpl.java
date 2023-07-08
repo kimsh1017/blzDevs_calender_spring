@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -40,8 +42,8 @@ public class UserServiceImpl implements UserService{
     
     //유저 리스트 조회
     @Override
-    public List<User> findAllBySearch(int offset, int limit, String accountId, String name){
-        return userRepository.searchUsers(offset,limit,accountId,name);
+    public Page<User> findAllBySearch(Pageable pageable, String accountId, String name){
+        return userRepository.searchUsers(pageable, accountId, name);
     }
     
     //유저 정보 수정

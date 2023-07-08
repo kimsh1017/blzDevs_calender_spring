@@ -2,7 +2,9 @@ package project.repository;
 
 import java.util.List;
 import project.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserRepositoryCustom{
-    public List<User> searchUsers(int offset, int limit, String accountId, String name);
+    public Page<User> searchUsers(Pageable pageable, String accountId, String name);
 }

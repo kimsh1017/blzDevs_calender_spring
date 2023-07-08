@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import static java.util.stream.Collectors.toList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,17 +22,18 @@ public class UserController{
     //근데 accountId로 검색이 굳이 필요할까..?
     @GetMapping("/users")
     public ResponseEntity<FindAllUserResponse> findAllUserName(
-                                @RequestParam(value = "offset", defaultValue = "0") int offset,
-                                 @RequestParam(value = "limit", defaultValue = "100") int limit,
+                                Pageable pageable,
                                 @RequestParam(value="accountId", required = false) String accountId,
                                 @RequestParam(value="name", required = false) String name){
         
-        List<UserDto> responseData = userService.findAllBySearch(offset, limit, accountId, name)
+        Page<User> page = userService.findAllBySearch(pageable, accountId, name);
+        
+        List<UserDto> responseData = page.getContent()
             .stream()
             .map(UserDto::new)
             .collect(toList());
         
-        FindAllUserResponse response = new FindAllUserResponse(responseData.size(), responseData);
+        FindAllUserResponse response = new FindAllUserResponse(page.getTotalPages(), page.getNumber(), responseData);
         
         return ResponseEntity.ok(response);
     }

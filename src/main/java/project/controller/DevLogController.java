@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,17 +22,19 @@ public class DevLogController {
     private final DevLogRepository devLogRepository;
     
     @GetMapping("/devLogs")
-    public ResponseEntity<DevLogFindAllResponse> findAllDevlogs(@RequestParam(value = "offset", defaultValue = "0") int offset,
-                                  @RequestParam(value = "limit", defaultValue = "100") int limit,
+    public ResponseEntity<DevLogFindAllResponse> findAllDevlogs( 
+                                Pageable pageable,
                                 @RequestParam(value="scheduleId", required = false) Long scheduleId,
                                 @RequestParam(value="accountId", required = false) String accountId){
-
-        List <DevLogDto> responseData = devLogService.findAllBySearch(offset, limit, scheduleId, accountId)
+        
+        Page<DevLog> page = devLogService.findAllBySearch(pageable, scheduleId, accountId);
+        
+        List <DevLogDto> responseData = page.getContent()
             .stream()
             .map(DevLogDto::new)
             .collect(toList());
         
-        DevLogFindAllResponse response = new DevLogFindAllResponse(responseData.size(), responseData);
+        DevLogFindAllResponse response = new DevLogFindAllResponse(page.getTotalPages(), page.getNumber(), responseData);
         
         return ResponseEntity.ok(response);
     }
