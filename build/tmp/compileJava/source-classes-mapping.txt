@@ -65,8 +65,6 @@ project/exception/schedule/NoSuchScheduleException.java
  project.exception.schedule.NoSuchScheduleException
 project/domain/Schedule.java
  project.domain.Schedule
-project/repository/WorkspaceRepositoryImpl.java
- project.repository.WorkspaceRepositoryImpl
 project/domain/UserWorkspace.java
  project.domain.UserWorkspace
 project/repository/UserRepositoryCustom.java

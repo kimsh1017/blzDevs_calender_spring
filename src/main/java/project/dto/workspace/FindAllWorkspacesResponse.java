@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class FindAllWorkspacesResponse{
-    private int count;
+    private int totalPages;
+    private int pageNumber;  
     private List<WorkspaceDto> data;
 }

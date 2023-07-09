@@ -4,7 +4,8 @@ import project.domain.*;
 import project.dto.workspace.*;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface WorkspaceService{
 
@@ -14,9 +15,9 @@ public interface WorkspaceService{
     
     public Workspace findOne(Long id);
     
-    public List<Workspace> findAll(int offset, int limit);
+    public Page<Workspace> findAll(Pageable pageable);
     
-    public List<Workspace> findByUserAccountId(String accountId);
+    // public List<Workspace> findByUserAccountId(String accountId);
     
     public Workspace updateWorkspace(Long id, CreateWorkspaceRequest request);
     

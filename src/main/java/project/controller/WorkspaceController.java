@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.ArrayList;
 import static java.util.stream.Collectors.toList;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,15 +21,19 @@ public class WorkspaceController{
     private final WorkspaceService workspaceService;
     
     @GetMapping("/workspaces")
-    public ResponseEntity<FindAllWorkspacesResponse> findAllWorkspaces(
-                                @RequestParam(value = "offset", defaultValue = "0") int offset,
-                                @RequestParam(value = "limit", defaultValue = "100") int limit){
+    public ResponseEntity<FindAllWorkspacesResponse> findAllWorkspaces(Pageable pageable){
         
-        List<WorkspaceDto> responseData = workspaceService.findAll(offset, limit).stream()
+        Page<Workspace> page = workspaceService.findAll(pageable);
+        
+        List<WorkspaceDto> responseData = page.getContent()
+            .stream()
             .map(WorkspaceDto::new)
             .collect(toList());
         
-        FindAllWorkspacesResponse response = new FindAllWorkspacesResponse(responseData.size(), responseData);
+        FindAllWorkspacesResponse response = new FindAllWorkspacesResponse(
+            page.getTotalPages(), 
+            page.getNumber(), 
+            responseData);
         
         return ResponseEntity.ok(response);
     }
@@ -41,7 +47,7 @@ public class WorkspaceController{
     }
     
     @GetMapping("/workspaces/{workspaceId}")
-    public ResponseEntity<FindSingleWorkspaceResponse> findAllWorkspaces(@PathVariable Long workspaceId){
+    public ResponseEntity<FindSingleWorkspaceResponse> findOneWorkspace(@PathVariable Long workspaceId){
         
         Workspace findWorkspace = workspaceService.findOne(workspaceId);
         
