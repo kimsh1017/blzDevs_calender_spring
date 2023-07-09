@@ -31,7 +31,7 @@ public class DevLogServiceImpl implements DevLogService{
     @Transactional
     public Long createDevLog(CreateDevLogRequest createDevLogRequest){
         
-        Schedule schedule = scheduleRepository.findOneOptional(createDevLogRequest.getScheduleId())
+        Schedule schedule = scheduleRepository.findById(createDevLogRequest.getScheduleId())
             .orElseThrow(NoSuchScheduleException::new);
         
         User user = userRepository.findByAccountId(createDevLogRequest.getUserAccountId())
@@ -50,7 +50,9 @@ public class DevLogServiceImpl implements DevLogService{
     @Override
     public Page<DevLog> findAllBySearch(Pageable pageable, Long scheduleId, String accountId){
         
-        Schedule schedule = validateScheduleId(scheduleId); //이부분 없으면 오류 띄우는거 맞나? 그냥 [] 보내주면 되는거 아닐까
+        //없으면 오류날리는 로직 vs [] 반환하는 로직
+        //전자 선택 -> queryDSL에서 탐색하면 join 쿼리 날려야하는데 N+1 또는 페이징 불가 이슈 뜰것 같음
+        Schedule schedule = validateScheduleId(scheduleId);
         User user = validateAccountId(accountId);
             
         return devLogRepository.searchDevLogs(pageable, schedule, user);
@@ -88,7 +90,7 @@ public class DevLogServiceImpl implements DevLogService{
         if (scheduleId == null){
             return null;
         }
-        return scheduleRepository.findOneOptional(scheduleId)
+        return scheduleRepository.findById(scheduleId)
             .orElseThrow(NoSuchScheduleException::new);
     }
     

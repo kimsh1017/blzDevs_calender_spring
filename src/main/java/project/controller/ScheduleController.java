@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import static java.util.stream.Collectors.toList;
 import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,16 +22,17 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     
     @GetMapping("/schedules")
-    public ResponseEntity<FindAllScheduleResponse> findAllSchedule(
-        @RequestParam(value = "offset", defaultValue = "0") int offset,
-        @RequestParam(value = "limit", defaultValue = "100") int limit,
-        @RequestParam(value = "accountId", required = false) String accountId){
+    public ResponseEntity<FindAllScheduleResponse> findAllSchedule(Pageable pageable){
+        // ,@RequestParam(value = "accountId", required = false) String accountId){
             
-        List<ScheduleDto> responseData = scheduleService.findSchedules(offset, limit, accountId).stream()
+        Page<Schedule> page = scheduleService.findSchedules(pageable);
+        
+        List<ScheduleDto> responseData = page.getContent()
+            .stream()
             .map(ScheduleDto::new) 
             .collect(toList());
         
-        FindAllScheduleResponse response = new FindAllScheduleResponse(responseData.size(),responseData);
+        FindAllScheduleResponse response = new FindAllScheduleResponse(page.getTotalPages(), page.getNumber(), responseData);
         
         return ResponseEntity.ok(response);
     }
@@ -42,7 +45,22 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleId);
     }
     
-    @GetMapping("/schedules/{scheduleId}") // join 쿼리 안나감, 수정할까 말까
+    //꼭 필요할까 이게?
+    // @GetMapping("/schedules/users")
+    // public ResponseEntity<FindAllScheduleResponse> searchScheduleByAccountId(
+    //     @RequestParam(value = "accountId", required = false) String accountId){ 
+        
+    //     List<ScheduleDto> responseData = scheduleService.searchSchedule(accountId)
+    //         .stream()
+    //         .map(ScheduleDto::new) 
+    //         .collect(toList());
+        
+    //     FindAllScheduleResponse response = new FindAllScheduleResponse(page.getTotalPages(), page.getNumber(), responseData);
+        
+    //     return ResponseEntity.ok(response);
+    // }
+    
+    @GetMapping("/schedules/{scheduleId}") 
     public ResponseEntity<FindSingleScheduleResponse> findSingleSchedule(@PathVariable Long scheduleId){
             
         Schedule schedule = scheduleService.findOne(scheduleId);
@@ -52,7 +70,7 @@ public class ScheduleController {
         return ResponseEntity.ok(response);
     }
     
-    @PutMapping("/schedules/{scheduleId}") // join 쿼리 안나감, 수정할까 말까
+    @PutMapping("/schedules/{scheduleId}") 
     public ResponseEntity<ScheduleDto> updateSchedule(@PathVariable Long scheduleId,
                                                     @RequestBody UpdateScheduleRequest request){
             
@@ -63,7 +81,7 @@ public class ScheduleController {
         return ResponseEntity.ok(response);
     }
     
-    @DeleteMapping("/schedules/{scheduleId}") // join 쿼리 안나감, 수정할까 말까
+    @DeleteMapping("/schedules/{scheduleId}")
     public ResponseEntity<DeleteScheduleResponse> deleteSchedule(@PathVariable Long scheduleId){
             
         scheduleService.removeSchedule(scheduleId);
@@ -71,7 +89,7 @@ public class ScheduleController {
         return ResponseEntity.ok(new DeleteScheduleResponse());
     }
     
-    @GetMapping("/schedules/{scheduleId}/users") // join 쿼리 안나감, 수정할까 말까
+    @GetMapping("/schedules/{scheduleId}/users")
     public ResponseEntity<FindScheduleUsersResponse> findScheduleUsers(@PathVariable Long scheduleId){
             
         Schedule schedule = scheduleService.findOne(scheduleId);
@@ -81,7 +99,7 @@ public class ScheduleController {
         return ResponseEntity.ok(response);
     }
     
-    @PostMapping("/schedules/{scheduleId}/users") // join 쿼리 안나감, 수정할까 말까
+    @PostMapping("/schedules/{scheduleId}/users")
     public ResponseEntity<Long> addScheduleUsers(
                                                         @PathVariable Long scheduleId,
                                                         @RequestBody AddUserReqeust request){
@@ -93,7 +111,7 @@ public class ScheduleController {
         return ResponseEntity.ok(responseId);
     }
     
-    @DeleteMapping("/schedules/{scheduleId}/users/{userId}") // join 쿼리 안나감, 수정할까 말까
+    @DeleteMapping("/schedules/{scheduleId}/users/{userId}")
     public ResponseEntity<DeleteScheduleUserResponse> addScheduleUsers(
                                                         @PathVariable Long scheduleId,
                                                         @PathVariable Long userId){

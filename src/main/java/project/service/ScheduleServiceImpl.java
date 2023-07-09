@@ -17,6 +17,8 @@ import project.repository.ScheduleRepository;
 import project.repository.UserRepository;
 import project.repository.WorkspaceRepository;
 import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -29,18 +31,21 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     @Transactional(readOnly = true)
     public Schedule findOne(Long id){
-        return scheduleRepository.findOne(id);
+        return scheduleRepository.findById(id)
+            .orElseThrow(NoSuchScheduleException::new);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public List<Schedule> findSchedules(int offset, int limit, String accountId){
+    public Page<Schedule> findSchedules(Pageable pageable){
         
-        //여기서 문제 발생
-        // Optional<User> user = userRepository.findByAccountId(accountId);
-        
-        return scheduleRepository.findAll(offset, limit, accountId);
+        return scheduleRepository.findAll(pageable);
     }
+    
+    // @Override
+    // public List<Schedule> searchSchedule(String accountId){
+    //     return scheduleRepository.searchSchedulesByUserAccountId(accountId);        
+    // }
     
     @Override
     @Transactional
@@ -61,7 +66,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     @Transactional
     public Schedule updateSchedule(Long scheduleId, UpdateScheduleRequest request){
-        Schedule schedule = scheduleRepository.findOne(scheduleId);
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+            .orElseThrow(NoSuchScheduleException::new);
         
         String name = request.getName();
         
@@ -75,19 +81,21 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     @Transactional
     public void removeSchedule(Long id){
-        Schedule schedule = scheduleRepository.findOne(id);
-        scheduleRepository.remove(schedule);
+        Schedule schedule = scheduleRepository.findById(id)
+            .orElseThrow(NoSuchScheduleException::new);
+        
+        scheduleRepository.delete(schedule);
     }
     
     @Override
     @Transactional
     public Schedule addUser(Long scheduleId, String accountId){
-        Schedule schedule = scheduleRepository.findOne(scheduleId);
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+            .orElseThrow(NoSuchScheduleException::new);
         //유저 중복 검증해야함
         User user = userRepository.findByAccountId(accountId)
             .orElseThrow(NoSuchUserException::new);
         
-        //이미 스케줄에 있는 유저인지 확인하는 로직 필요함
         schedule.addUser(user);
         
         return schedule;
@@ -96,8 +104,9 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     @Transactional
     public void removeUser(Long scheduleId, Long userId){
-        Schedule schedule = scheduleRepository.findOne(scheduleId);
-        //유저 중복 검증해야함
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+            .orElseThrow(NoSuchScheduleException::new);
+
         User user = userRepository.findById(userId)
             .orElseThrow(NoSuchUserException::new);
         

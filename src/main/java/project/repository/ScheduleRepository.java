@@ -4,17 +4,16 @@ import project.domain.*;
 import java.util.List;
 import java.util.Optional;
 
-public interface ScheduleRepository{
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+public interface ScheduleRepository extends JpaRepository<Schedule, Long>, ScheduleRepositoryCustom{
     
-    public void save(Schedule schedule);
+    @Query(value = "select s from Schedule s join fetch s.workspace w",
+          countQuery = "select count(s) from Schedule s")
+    public Page<Schedule> findAll(Pageable pageable);
     
-    public void remove(Schedule schedule);
-    
-    public Schedule findOne(Long id);
-    
-    public Optional<Schedule> findOneOptional (Long id);
-    
-    public List<Schedule> findAll(int offset, int limit, String accountId);
-    
-    public List<Schedule> findByWorkspaceName(int offset, int limit, String workspaceName);
 }

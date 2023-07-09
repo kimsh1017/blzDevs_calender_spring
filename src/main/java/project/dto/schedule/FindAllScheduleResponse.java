@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class FindAllScheduleResponse{
-    private int size;
+    private int totalPages;
+    private int pageNumber;
     private List<ScheduleDto> data;
 }

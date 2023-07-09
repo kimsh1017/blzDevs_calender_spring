@@ -81,6 +81,8 @@ project/dto/user/FindAllUserResponse.java
  project.dto.user.FindAllUserResponse
 project/domain/Workspace.java
  project.domain.Workspace
+project/repository/ScheduleRepositoryCustomImpl.java
+ project.repository.ScheduleRepositoryCustomImpl
 project/dto/workspace/FindSingleWorkspaceResponse.java
  project.dto.workspace.FindSingleWorkspaceResponse
  project.dto.workspace.FindSingleWorkspaceResponse$ScheduleSimpleDto
@@ -90,8 +92,6 @@ project/AppConfig.java
  project.AppConfig
 project/dto/devLog/UpdateDevLogRequest.java
  project.dto.devLog.UpdateDevLogRequest
-project/repository/ScheduleRepositoryImpl.java
- project.repository.ScheduleRepositoryImpl
 project/dto/workspace/CreateWorkspaceRequest.java
  project.dto.workspace.CreateWorkspaceRequest
 project/dto/workspace/DeleteWorkspaceResponse.java
@@ -134,6 +134,8 @@ project/dto/schedule/UpdateScheduleRequest.java
  project.dto.schedule.UpdateScheduleRequest
 project/domain/UserSchedule.java
  project.domain.UserSchedule
+project/repository/ScheduleRepositoryCustom.java
+ project.repository.ScheduleRepositoryCustom
 project/dto/devLog/DevLogDto.java
  project.dto.devLog.DevLogDto
 project/controller/DevLogController.java
