@@ -47,9 +47,13 @@
 //         devLogRepository.save(devLog);
 //         //when
         
+//         mvc.perform(post("/devLogs"))
+//             .content()
+        
 //         //then
 //         mvc.perform(get("/devLogs"))
 //             .andExpect(status().isOk())
-//             .andExpect(jsonPath("$.count").value("1"));
+//             .andExpect(jsonPath("$.count").value("1"))
+//             .andDo(print());
 //     }
 // }

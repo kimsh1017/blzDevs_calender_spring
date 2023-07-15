@@ -1,4 +1,6 @@
-project/controller/DevLogControllerTest.java
- project.controller.DevLogControllerTest
 ApplicationTests.java
  project.ApplicationTests
+project/controller/UserControllerTest.java
+ project.controller.UserControllerTest
+project/service/UserServiceTest.java
+ project.service.UserServiceTest
